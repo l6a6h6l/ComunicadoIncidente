@@ -3,15 +3,51 @@ import React, { useState } from 'react';
 const ComunicadoIncidente = () => {
   const [tipoNotificacion, setTipoNotificacion] = useState('GESTIÓN INCIDENTE');
   const [estado, setEstado] = useState('En revisión');
-  const [fecha, setFecha] = useState('25/04/2025');
-  const [horaInicio, setHoraInicio] = useState('10:18 GMT');
-  const [horaFin, setHoraFin] = useState('14:45 GMT');
-  const [descripcion, setDescripcion] = useState('el Procesamiento por Lotes de Intercambio DCI se retrasó');
-  const [impacto, setImpacto] = useState('Es posible que una parte de las recapitulaciones no se haya procesado. Estas recapitulaciones se procesarán el 28 de abril de 2025, lo que causará un retraso de un día en la financiación de liquidaciones.');
-  const [resolucion, setResolucion] = useState('Los equipos de soporte técnico han resuelto el problema.');
+  const [fecha, setFecha] = useState('');
+  const [horaInicio, setHoraInicio] = useState('');
+  const [horaFin, setHoraFin] = useState('');
+  const [duracion, setDuracion] = useState('');
+  const [descripcion, setDescripcion] = useState('');
+  const [impacto, setImpacto] = useState('');
+  const [resolucion, setResolucion] = useState('');
   const [telefono, setTelefono] = useState('+1 224 813 7200');
-  const [referencia, setReferencia] = useState('MSG194399725_qvgawfa4Evv9LNt4RE');
+  const [referencia, setReferencia] = useState('');
   const [vistaPrevia, setVistaPrevia] = useState(false);
+
+  // Calcular duración cuando se actualizan las horas
+  React.useEffect(() => {
+    if (horaInicio && horaFin) {
+      try {
+        // Convertir a formato de 24 horas para el cálculo
+        const inicio = horaInicio.split(':');
+        const fin = horaFin.split(':');
+        
+        // Crear objetos Date y establecer horas y minutos
+        const fechaInicio = new Date();
+        fechaInicio.setHours(parseInt(inicio[0]), parseInt(inicio[1]), 0);
+        
+        const fechaFin = new Date();
+        fechaFin.setHours(parseInt(fin[0]), parseInt(fin[1]), 0);
+        
+        // Si la hora de fin es anterior a la de inicio, asumimos que es el día siguiente
+        if (fechaFin < fechaInicio) {
+          fechaFin.setDate(fechaFin.getDate() + 1);
+        }
+        
+        // Calcular diferencia en minutos
+        const diffMinutos = Math.round((fechaFin - fechaInicio) / (1000 * 60));
+        const horas = Math.floor(diffMinutos / 60);
+        const minutos = diffMinutos % 60;
+        
+        // Formatear resultado
+        setDuracion(`${horas}h ${minutos}m`);
+      } catch (e) {
+        setDuracion('');
+      }
+    } else {
+      setDuracion('');
+    }
+  }, [horaInicio, horaFin]);
 
   const generarReferencia = () => {
     const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
@@ -23,6 +59,7 @@ const ComunicadoIncidente = () => {
   };
 
   const handleSubmit = () => {
+    // Generar referencia si no existe
     if (!referencia) {
       setReferencia(generarReferencia());
     }
@@ -32,7 +69,6 @@ const ComunicadoIncidente = () => {
   const volver = () => {
     setVistaPrevia(false);
   };
-
   const FormularioIncidente = () => (
     <div className="space-y-4 p-4">
       <h2 className="text-xl font-bold mb-4">Crear Comunicado</h2>
@@ -70,38 +106,45 @@ const ComunicadoIncidente = () => {
             type="text" 
             value={fecha} 
             onChange={(e) => setFecha(e.target.value)}
-            placeholder="25/04/2025"
+            placeholder="ej. 25/04/2025"
             className="w-full p-2 border rounded"
           />
         </div>
         <div className="flex-1">
-          <label className="block text-sm font-medium mb-1">Hora Inicio (HH:MM GMT)</label>
+          <label className="block text-sm font-medium mb-1">Hora Inicio (HH:MM)</label>
           <input 
             type="text" 
             value={horaInicio} 
             onChange={(e) => setHoraInicio(e.target.value)}
-            placeholder="10:18 GMT"
+            placeholder="ej. 10:18"
             className="w-full p-2 border rounded"
           />
+          <span className="text-xs text-gray-500">Hora ecuatoriana (GMT-5)</span>
         </div>
         <div className="flex-1">
-          <label className="block text-sm font-medium mb-1">Hora Fin (HH:MM GMT)</label>
+          <label className="block text-sm font-medium mb-1">Hora Fin (HH:MM)</label>
           <input 
             type="text" 
             value={horaFin} 
             onChange={(e) => setHoraFin(e.target.value)}
-            placeholder="14:45 GMT"
+            placeholder="ej. 14:45"
             className="w-full p-2 border rounded"
           />
         </div>
       </div>
+      
+      {duracion && (
+        <div className="bg-blue-50 p-2 rounded border border-blue-200 text-sm">
+          <span className="font-medium">Duración del incidente: </span>{duracion}
+        </div>
+      )}
 
       <div>
         <label className="block text-sm font-medium mb-1">Descripción del Problema</label>
         <textarea 
           value={descripcion} 
           onChange={(e) => setDescripcion(e.target.value)}
-          placeholder="Proceso de lotes interrumpido..."
+          placeholder="Aquí describir brevemente el incidente o evento técnico incluyendo detalles relevantes"
           className="w-full p-2 border rounded h-20"
         ></textarea>
       </div>
@@ -111,7 +154,7 @@ const ComunicadoIncidente = () => {
         <textarea 
           value={impacto} 
           onChange={(e) => setImpacto(e.target.value)}
-          placeholder="Algunos recaps no han sido procesados..."
+          placeholder="Detallar las consecuencias para los usuarios/clientes y posibles plazos de resolución"
           className="w-full p-2 border rounded h-20"
         ></textarea>
       </div>
@@ -121,7 +164,7 @@ const ComunicadoIncidente = () => {
         <textarea 
           value={resolucion} 
           onChange={(e) => setResolucion(e.target.value)}
-          placeholder="Los equipos de soporte técnico han resuelto el problema."
+          placeholder="Explicar las acciones tomadas para resolver el problema y su estado actual"
           className="w-full p-2 border rounded h-20"
         ></textarea>
       </div>
@@ -132,17 +175,19 @@ const ComunicadoIncidente = () => {
           type="text" 
           value={telefono} 
           onChange={(e) => setTelefono(e.target.value)}
+          placeholder="+1 224 813 7200"
           className="w-full p-2 border rounded"
         />
       </div>
 
       <button 
         onClick={handleSubmit} 
-        className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
+        className="bg-[#0066B2] text-white px-4 py-2 rounded hover:bg-blue-700"
       >
         Vista Previa
       </button>
     </div>
+  );
   );
 
   const ComunicadoPreview = () => (
