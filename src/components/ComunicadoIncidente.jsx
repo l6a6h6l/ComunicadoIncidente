@@ -11,7 +11,7 @@ function ComunicadoIncidente() {
     descripcion: "",
     impacto: "",
     resolucion: "",
-    soporte: "Los participantes deben contactar al Centro de Comando DCI para asistencia. Las preguntas pueden enviarse usando el formulario de HAGA UNA PREGUNTA A DCI en InfoNet.",
+    soporte: "Llamar a este número {telefono} para asistencia.",
     telefono: "+1 224 813 7200",
     referencia: "MSG" + Math.random().toString(36).substring(2, 8) + "_" + Date.now().toString().slice(-8)
   });
@@ -57,7 +57,7 @@ function ComunicadoIncidente() {
   if (showForm) {
     return (
       <div style={{maxWidth: "800px", margin: "0 auto", backgroundColor: "white", borderRadius: "8px", boxShadow: "0 2px 10px rgba(0,0,0,0.1)", overflow: "hidden"}}>
-        <div style={{backgroundColor: "#102040", color: "white", padding: "15px 20px"}}>
+        <div style={{backgroundColor: "#0e1c36", color: "white", padding: "15px 20px"}}>
           <h1 style={{margin: 0, fontSize: "24px"}}>Crear Comunicado de Incidente</h1>
         </div>
 
@@ -219,9 +219,9 @@ function ComunicadoIncidente() {
 
   return (
     <div style={{maxWidth: "800px", margin: "0 auto", backgroundColor: "white", borderRadius: "8px", boxShadow: "0 2px 10px rgba(0,0,0,0.1)", overflow: "hidden"}}>
-      <div style={{backgroundColor: "#102040", color: "white", padding: "15px 20px", display: "flex", alignItems: "center", justifyContent: "space-between"}}>
-        <h1 style={{margin: 0, fontSize: "24px"}}>{formData.tipoNotificacion}</h1>
-        <div style={{width: "60px", height: "60px", display: "flex", alignItems: "center", justifyContent: "center"}}>
+      <div style={{backgroundColor: "#0e1c36", color: "white", padding: "15px 20px", display: "flex", alignItems: "center", justifyContent: "space-between"}}>
+        <h1 style={{margin: 0, fontSize: "30px", fontWeight: "bold"}}>{formData.tipoNotificacion}</h1>
+        <div style={{width: "70px", height: "70px", display: "flex", alignItems: "center", justifyContent: "center"}}>
           <img 
             src="https://www.dropbox.com/scl/fi/wr90vk30xq57j0w9mqxpl/logo.png?rlkey=yy1117ess35a6uc5lwbdziq6u&raw=1"
             alt="Logo DCI" 
@@ -232,28 +232,28 @@ function ComunicadoIncidente() {
       
       <div style={{padding: "20px"}}>
         <div style={{border: "1px solid #ccc", padding: "20px", marginBottom: "15px"}}>
-          <h2 style={{color: "#0066B2", fontSize: "16px", marginBottom: "5px"}}>Problema</h2>
+          <h2 style={{color: "#0066B2", fontSize: "16px", marginBottom: "5px", fontWeight: "bold"}}>Problema</h2>
           <p style={{fontSize: "14px", lineHeight: "1.5", margin: "0 0 15px 0"}}>{problemaTexto}</p>
           
-          <h2 style={{color: "#0066B2", fontSize: "16px", marginBottom: "5px"}}>Impacto</h2>
+          <h2 style={{color: "#0066B2", fontSize: "16px", marginBottom: "5px", fontWeight: "bold"}}>Impacto</h2>
           <p style={{fontSize: "14px", lineHeight: "1.5", margin: "0 0 15px 0"}}>{formData.impacto || "No se ha proporcionado información sobre el impacto"}</p>
           
-          <h2 style={{color: "#0066B2", fontSize: "16px", marginBottom: "5px"}}>Resolución</h2>
+          <h2 style={{color: "#0066B2", fontSize: "16px", marginBottom: "5px", fontWeight: "bold"}}>Resolución</h2>
           <p style={{fontSize: "14px", lineHeight: "1.5", margin: "0 0 15px 0"}}>{formData.resolucion || "No se ha proporcionado información sobre la resolución"}</p>
           
-          <h2 style={{color: "#0066B2", fontSize: "16px", marginBottom: "5px"}}>Soporte</h2>
+          <h2 style={{color: "#0066B2", fontSize: "16px", marginBottom: "5px", fontWeight: "bold"}}>Soporte</h2>
           <p style={{fontSize: "14px", lineHeight: "1.5", margin: "0"}}>
             {formData.soporte.replace('{telefono}', formData.telefono)}
           </p>
         </div>
         
-        <div style={{backgroundColor: "#102040", color: "white", padding: "10px 20px", fontSize: "14px"}}>
+        <div style={{backgroundColor: "#0e1c36", color: "white", padding: "10px 20px", fontSize: "14px"}}>
           <a href="/" style={{color: "#b3d1ff", textDecoration: "none", marginRight: "10px"}}>Darse de baja</a> | 
           <a href="/" style={{color: "#b3d1ff", textDecoration: "none", marginLeft: "10px"}}>Gestionar Preferencias</a>
         </div>
         
         <div style={{fontSize: "12px", color: "#666", margin: "10px 0"}}>
-          Ref: {formData.referencia}
+          Ref: xxxxxx
         </div>
         
         <button 
