@@ -6,7 +6,7 @@ function App() {
   return (
     <div className="App">
       <header className="bg-gray-800 text-white p-4 mb-4">
-        <h1 className="text-xl font-bold">Sistema de Comunicados DCI</h1>
+        <h1 className="text-xl font-bold">Sistema de Comunicados Monitoreo Diners Club</h1>
       </header>
       <main className="container mx-auto px-4">
         <ComunicadoIncidente />
