@@ -153,7 +153,7 @@ const ComunicadoIncidente = () => {
           <img 
             src="https://www.dropbox.com/scl/fi/wr90vk30xq57j0w9mqxpl/logo.png?rlkey=yy1117ess35a6uc5lwbdziq6u&raw=1" 
             alt="Logo Oficial" 
-            className="h-14 w-14 object-contain"
+            className="h-20 w-20 object-contain"
           />
         </div>
       </div>
