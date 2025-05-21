@@ -147,9 +147,9 @@ const ComunicadoIncidente = () => {
 
   const ComunicadoPreview = () => (
     <div className="max-w-2xl mx-auto">
-      <div className="bg-gray-900 text-white p-4 flex items-center">
+      <div className="bg-[#102040] text-white p-4 flex items-center">
         <h1 className="text-2xl font-bold tracking-wider">{tipoNotificacion}</h1>
-        <div className="ml-auto bg-gray-900 rounded-full flex items-center justify-center h-16 w-16 overflow-hidden">
+        <div className="ml-auto">
           <img 
             src="https://www.dropbox.com/scl/fi/wr90vk30xq57j0w9mqxpl/logo.png?rlkey=yy1117ess35a6uc5lwbdziq6u&raw=1" 
             alt="Logo Oficial" 
@@ -178,15 +178,15 @@ const ComunicadoIncidente = () => {
           <h2 className="text-orange-500 font-bold text-base">Soporte</h2>
           <p className="text-sm">
             Los participantes deben contactar al Centro de Comando DCI al {telefono} para asistencia. Las preguntas pueden enviarse usando 
-            el <a href="/" className="text-blue-600 underline">formulario de HAGA UNA PREGUNTA A DCI</a> en InfoNet.
+            el <a href="#" className="text-blue-600 underline">formulario de HAGA UNA PREGUNTA A DCI</a> en InfoNet.
           </p>
         </div>
       </div>
       
       <div className="bg-gray-900 text-white p-3 flex space-x-4 text-sm">
-        <a href="/" className="text-blue-400 hover:underline">Darse de baja</a>
+        <a href="#" className="text-blue-400 hover:underline">Darse de baja</a>
         <span>|</span>
-        <a href="/" className="text-blue-400 hover:underline">Gestionar Preferencias</a>
+        <a href="#" className="text-blue-400 hover:underline">Gestionar Preferencias</a>
       </div>
       
       <div className="mt-2 text-xs text-gray-600">
