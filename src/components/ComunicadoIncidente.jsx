@@ -178,15 +178,15 @@ const ComunicadoIncidente = () => {
           <h2 className="text-orange-500 font-bold text-base">Soporte</h2>
           <p className="text-sm">
             Los participantes deben contactar al Centro de Comando DCI al {telefono} para asistencia. Las preguntas pueden enviarse usando 
-            el <a href="#" className="text-blue-600 underline">formulario de HAGA UNA PREGUNTA A DCI</a> en InfoNet.
+            el <a href="/" className="text-blue-600 underline">formulario de HAGA UNA PREGUNTA A DCI</a> en InfoNet.
           </p>
         </div>
       </div>
       
       <div className="bg-gray-900 text-white p-3 flex space-x-4 text-sm">
-        <a href="#" className="text-blue-400 hover:underline">Darse de baja</a>
+        <a href="/" className="text-blue-400 hover:underline">Darse de baja</a>
         <span>|</span>
-        <a href="#" className="text-blue-400 hover:underline">Gestionar Preferencias</a>
+        <a href="/" className="text-blue-400 hover:underline">Gestionar Preferencias</a>
       </div>
       
       <div className="mt-2 text-xs text-gray-600">
