@@ -12,7 +12,7 @@ function App() {
         <ComunicadoIncidente />
       </main>
       <footer className="text-center mt-8 text-gray-600 text-sm p-4">
-        © 2025 DCI - Todos los derechos reservados
+        © 2025 Monitoreo - Desarrollado por Luis Alberto Herrera Lara
       </footer>
     </div>
   );
