@@ -221,7 +221,7 @@ function ComunicadoIncidente() {
     <div style={{maxWidth: "800px", margin: "0 auto", backgroundColor: "white", borderRadius: "8px", boxShadow: "0 2px 10px rgba(0,0,0,0.1)", overflow: "hidden"}}>
       <div style={{backgroundColor: "#0e1c36", color: "white", padding: "15px 20px", display: "flex", alignItems: "center", justifyContent: "space-between"}}>
         <h1 style={{margin: 0, fontSize: "30px", fontWeight: "bold"}}>{formData.tipoNotificacion}</h1>
-        <div style={{width: "70px", height: "70px", display: "flex", alignItems: "center", justifyContent: "center"}}>
+        <div style={{width: "85px", height: "85px", display: "flex", alignItems: "center", justifyContent: "center"}}>
           <img 
             src="https://www.dropbox.com/scl/fi/wr90vk30xq57j0w9mqxpl/logo.png?rlkey=yy1117ess35a6uc5lwbdziq6u&raw=1"
             alt="Logo DCI" 
