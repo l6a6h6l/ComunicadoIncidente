@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 const ComunicadoIncidente = () => {
   const [tipoNotificacion, setTipoNotificacion] = useState('GESTIÓN INCIDENTE');
@@ -15,32 +15,34 @@ const ComunicadoIncidente = () => {
   const [vistaPrevia, setVistaPrevia] = useState(false);
 
   // Calcular duración cuando se actualizan las horas
-  React.useEffect(() => {
+  useEffect(() => {
     if (horaInicio && horaFin) {
       try {
         // Convertir a formato de 24 horas para el cálculo
         const inicio = horaInicio.split(':');
         const fin = horaFin.split(':');
         
-        // Crear objetos Date y establecer horas y minutos
-        const fechaInicio = new Date();
-        fechaInicio.setHours(parseInt(inicio[0]), parseInt(inicio[1]), 0);
-        
-        const fechaFin = new Date();
-        fechaFin.setHours(parseInt(fin[0]), parseInt(fin[1]), 0);
-        
-        // Si la hora de fin es anterior a la de inicio, asumimos que es el día siguiente
-        if (fechaFin < fechaInicio) {
-          fechaFin.setDate(fechaFin.getDate() + 1);
+        if (inicio.length === 2 && fin.length === 2) {
+          // Crear objetos Date y establecer horas y minutos
+          const fechaInicio = new Date();
+          fechaInicio.setHours(parseInt(inicio[0]), parseInt(inicio[1]), 0);
+          
+          const fechaFin = new Date();
+          fechaFin.setHours(parseInt(fin[0]), parseInt(fin[1]), 0);
+          
+          // Si la hora de fin es anterior a la de inicio, asumimos que es el día siguiente
+          if (fechaFin < fechaInicio) {
+            fechaFin.setDate(fechaFin.getDate() + 1);
+          }
+          
+          // Calcular diferencia en minutos
+          const diffMinutos = Math.round((fechaFin - fechaInicio) / (1000 * 60));
+          const horas = Math.floor(diffMinutos / 60);
+          const minutos = diffMinutos % 60;
+          
+          // Formatear resultado
+          setDuracion(`${horas}h ${minutos}m`);
         }
-        
-        // Calcular diferencia en minutos
-        const diffMinutos = Math.round((fechaFin - fechaInicio) / (1000 * 60));
-        const horas = Math.floor(diffMinutos / 60);
-        const minutos = diffMinutos % 60;
-        
-        // Formatear resultado
-        setDuracion(`${horas}h ${minutos}m`);
       } catch (e) {
         setDuracion('');
       }
@@ -49,26 +51,23 @@ const ComunicadoIncidente = () => {
     }
   }, [horaInicio, horaFin]);
 
-  const generarReferencia = () => {
-    const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-    let result = 'MSG';
-    for (let i = 0; i < 8; i++) {
-      result += chars.charAt(Math.floor(Math.random() * chars.length));
-    }
-    return result + '_' + Date.now().toString().slice(-8);
-  };
-
-  const handleSubmit = () => {
+  const handleVistaPrevia = () => {
     // Generar referencia si no existe
     if (!referencia) {
-      setReferencia(generarReferencia());
+      const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+      let result = 'MSG';
+      for (let i = 0; i < 8; i++) {
+        result += chars.charAt(Math.floor(Math.random() * chars.length));
+      }
+      setReferencia(result + '_' + Date.now().toString().slice(-8));
     }
     setVistaPrevia(true);
   };
 
-  const volver = () => {
+  const handleVolverEditor = () => {
     setVistaPrevia(false);
   };
+
   const FormularioIncidente = () => (
     <div className="space-y-4 p-4">
       <h2 className="text-xl font-bold mb-4">Crear Comunicado</h2>
@@ -181,13 +180,12 @@ const ComunicadoIncidente = () => {
       </div>
 
       <button 
-        onClick={handleSubmit} 
+        onClick={() => handleVistaPrevia()} 
         className="bg-[#0066B2] text-white px-4 py-2 rounded hover:bg-blue-700"
       >
         Vista Previa
       </button>
     </div>
-  );
   );
 
   const ComunicadoPreview = () => (
@@ -205,33 +203,37 @@ const ComunicadoIncidente = () => {
       
       <div className="p-6 space-y-4 border border-gray-300">
         <div>
-          <h2 className="text-orange-500 font-bold text-base">Problema</h2>
-          <p className="text-sm">Desde {horaInicio} hasta {horaFin} el {fecha}, {descripcion}</p>
+          <h2 className="text-[#0066B2] font-bold text-base">Problema</h2>
+          <p className="text-sm">
+            {fecha && horaInicio && horaFin ? 
+              `Desde ${horaInicio} hasta ${horaFin} ${duracion ? `(${duracion})` : ''} el ${fecha}, ${descripcion}` : 
+              descripcion || 'No se ha proporcionado información del problema'}
+          </p>
         </div>
         
         <div>
-          <h2 className="text-orange-500 font-bold text-base">Impacto</h2>
-          <p className="text-sm">{impacto}</p>
+          <h2 className="text-[#0066B2] font-bold text-base">Impacto</h2>
+          <p className="text-sm">{impacto || 'No se ha proporcionado información sobre el impacto'}</p>
         </div>
         
         <div>
-          <h2 className="text-orange-500 font-bold text-base">Resolución</h2>
-          <p className="text-sm">{resolucion}</p>
+          <h2 className="text-[#0066B2] font-bold text-base">Resolución</h2>
+          <p className="text-sm">{resolucion || 'No se ha proporcionado información sobre la resolución'}</p>
         </div>
         
         <div>
-          <h2 className="text-orange-500 font-bold text-base">Soporte</h2>
+          <h2 className="text-[#0066B2] font-bold text-base">Soporte</h2>
           <p className="text-sm">
             Los participantes deben contactar al Centro de Comando DCI al {telefono} para asistencia. Las preguntas pueden enviarse usando 
-            el <a href="#" className="text-blue-600 underline">formulario de HAGA UNA PREGUNTA A DCI</a> en InfoNet.
+            el <a href="/" className="text-[#0066B2] underline">formulario de HAGA UNA PREGUNTA A DCI</a> en InfoNet.
           </p>
         </div>
       </div>
       
-      <div className="bg-gray-900 text-white p-3 flex space-x-4 text-sm">
-        <a href="#" className="text-blue-400 hover:underline">Darse de baja</a>
+      <div className="bg-[#102040] text-white p-3 flex space-x-4 text-sm">
+        <a href="/" className="text-blue-300 hover:underline">Darse de baja</a>
         <span>|</span>
-        <a href="#" className="text-blue-400 hover:underline">Gestionar Preferencias</a>
+        <a href="/" className="text-blue-300 hover:underline">Gestionar Preferencias</a>
       </div>
       
       <div className="mt-2 text-xs text-gray-600">
@@ -240,7 +242,7 @@ const ComunicadoIncidente = () => {
       
       <div className="mt-4">
         <button 
-          onClick={volver} 
+          onClick={() => handleVolverEditor()} 
           className="bg-gray-600 text-white px-4 py-2 rounded hover:bg-gray-700"
         >
           Volver al Editor
