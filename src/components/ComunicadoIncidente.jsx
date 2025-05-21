@@ -102,20 +102,24 @@ const ComunicadoIncidente = () => {
         <div className="flex-1">
           <label className="block text-sm font-medium mb-1">Fecha (DD/MM/YYYY)</label>
           <input 
-            type="text" 
+            type="date" 
             value={fecha} 
-            onChange={(e) => setFecha(e.target.value)}
-            placeholder="ej. 25/04/2025"
+            onChange={(e) => {
+              // Convertir formato YYYY-MM-DD a DD/MM/YYYY
+              const date = new Date(e.target.value);
+              const day = date.getDate().toString().padStart(2, '0');
+              const month = (date.getMonth() + 1).toString().padStart(2, '0');
+              const year = date.getFullYear();
+              setFecha(`${day}/${month}/${year}`);
+            }}
             className="w-full p-2 border rounded"
           />
         </div>
         <div className="flex-1">
           <label className="block text-sm font-medium mb-1">Hora Inicio (HH:MM)</label>
           <input 
-            type="text" 
-            value={horaInicio} 
+            type="time" 
             onChange={(e) => setHoraInicio(e.target.value)}
-            placeholder="ej. 10:18"
             className="w-full p-2 border rounded"
           />
           <span className="text-xs text-gray-500">Hora ecuatoriana (GMT-5)</span>
@@ -123,10 +127,8 @@ const ComunicadoIncidente = () => {
         <div className="flex-1">
           <label className="block text-sm font-medium mb-1">Hora Fin (HH:MM)</label>
           <input 
-            type="text" 
-            value={horaFin} 
+            type="time" 
             onChange={(e) => setHoraFin(e.target.value)}
-            placeholder="ej. 14:45"
             className="w-full p-2 border rounded"
           />
         </div>
