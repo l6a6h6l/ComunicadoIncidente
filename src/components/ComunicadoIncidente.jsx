@@ -1,6 +1,8 @@
+import React, { useState } from 'react';
+
 function ComunicadoIncidente() {
-  const [showForm, setShowForm] = React.useState(true);
-  const [formData, setFormData] = React.useState({
+  const [showForm, setShowForm] = useState(true);
+  const [formData, setFormData] = useState({
     tipoNotificacion: "GESTIÓN INCIDENTE",
     estado: "En revisión",
     fecha: "",
