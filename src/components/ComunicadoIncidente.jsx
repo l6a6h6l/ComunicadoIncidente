@@ -4,7 +4,7 @@ function ComunicadoIncidente() {
   const [showForm, setShowForm] = useState(true);
   const [formData, setFormData] = useState({
     tipoNotificacion: "GESTIÓN INCIDENTE",
-    estado: "En revisión",
+    estado: "En Revisión",
     prioridad: "P2",
     fecha: "",
     horaInicio: "",
@@ -40,6 +40,16 @@ function ComunicadoIncidente() {
     } catch (e) {
       console.log("Error con la fecha");
     }
+  };
+
+  // Obtener color según estado
+  const getColorEstado = () => {
+    const colores = {
+      'En Revisión': '#FFD700',
+      'Avance': '#FFA07A', 
+      'Recuperado': '#90EE90'
+    };
+    return colores[formData.estado] || '#FFD700';
   };
 
   // Calcular el puntaje de prioridad
@@ -124,9 +134,9 @@ function ComunicadoIncidente() {
                 onChange={(e) => handleInputChange("estado", e.target.value)}
                 style={{width: "100%", padding: "8px", border: "1px solid #ccc", borderRadius: "4px", fontSize: "14px"}}
               >
-                <option value="En revisión">En revisión</option>
+                <option value="En Revisión">En Revisión</option>
                 <option value="Avance">Avance</option>
-                <option value="Resuelto">Resuelto</option>
+                <option value="Recuperado">Recuperado</option>
               </select>
             </div>
             
@@ -407,9 +417,25 @@ function ComunicadoIncidente() {
       
       <div style={{padding: "20px"}}>
         <div style={{border: "1px solid #ccc", padding: "20px", marginBottom: "15px", position: "relative"}}>
-          <div style={{position: "absolute", top: "15px", right: "15px", backgroundColor: "#f0f8ff", color: "#0066B2", padding: "8px 12px", borderRadius: "8px", textAlign: "center", minWidth: "70px", border: "2px solid #0066B2"}}>
-            <div style={{fontSize: "11px", fontWeight: "bold", marginBottom: "2px"}}>Prioridad</div>
-            <div style={{fontSize: "18px", fontWeight: "bold"}}>{formData.prioridad}</div>
+          <div style={{position: "absolute", top: "15px", right: "15px", display: "flex", gap: "10px"}}>
+            <div style={{backgroundColor: "#fff8dc", color: "#B7950B", padding: "8px 12px", borderRadius: "8px", textAlign: "center", minWidth: "60px", border: "2px solid #B7950B"}}>
+              <div style={{fontSize: "11px", fontWeight: "bold", marginBottom: "2px"}}>Estado</div>
+              <div style={{display: "flex", alignItems: "center", justifyContent: "center", gap: "6px"}}>
+                <div 
+                  style={{
+                    width: "12px", 
+                    height: "12px", 
+                    borderRadius: "50%", 
+                    backgroundColor: getColorEstado()
+                  }}
+                ></div>
+                <div style={{fontSize: "12px", fontWeight: "bold"}}>{formData.estado}</div>
+              </div>
+            </div>
+            <div style={{backgroundColor: "#f0f8ff", color: "#0066B2", padding: "8px 12px", borderRadius: "8px", textAlign: "center", minWidth: "70px", border: "2px solid #0066B2"}}>
+              <div style={{fontSize: "11px", fontWeight: "bold", marginBottom: "2px"}}>Prioridad</div>
+              <div style={{fontSize: "18px", fontWeight: "bold"}}>{formData.prioridad}</div>
+            </div>
           </div>
           
           <h2 style={{color: "#0066B2", fontSize: "16px", marginBottom: "5px", fontWeight: "bold"}}>Descripción</h2>
