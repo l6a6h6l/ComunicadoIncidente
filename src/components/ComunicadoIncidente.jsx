@@ -5,16 +5,23 @@ function ComunicadoIncidente() {
   const [formData, setFormData] = useState({
     tipoNotificacion: "GESTIÓN INCIDENTE",
     estado: "En revisión",
+    prioridad: "P2",
     fecha: "",
     horaInicio: "",
     horaFin: "",
     descripcion: "",
     impacto: "",
     resolucion: "",
-    soporte: "Llamar a este número {telefono} para asistencia.",
-    telefono: "+1 224 813 7200",
+    nota: "Describir la nota si aplica",
     referencia: "MSG" + Math.random().toString(36).substring(2, 8) + "_" + Date.now().toString().slice(-8)
   });
+
+  // Estados para el cálculo de prioridad
+  const [mostrarCalculadoraPrioridad, setMostrarCalculadoraPrioridad] = useState(false);
+  const [afectacion, setAfectacion] = useState(0);
+  const [impactoUsuarios, setImpactoUsuarios] = useState(1);
+  const [urgencia, setUrgencia] = useState(2);
+  const [horario, setHorario] = useState(2);
 
   const handleInputChange = (field, value) => {
     setFormData({
@@ -33,6 +40,51 @@ function ComunicadoIncidente() {
     } catch (e) {
       console.log("Error con la fecha");
     }
+  };
+
+  // Calcular el puntaje de prioridad
+  const calcularPuntajePrioridad = () => {
+    return afectacion + impactoUsuarios + urgencia + horario;
+  };
+
+  // Actualizar la prioridad basada en el puntaje
+  const actualizarPrioridad = (puntaje) => {
+    let nuevaPrioridad;
+    if (puntaje >= 12) {
+      nuevaPrioridad = 'P1';
+    } else if (puntaje >= 10 && puntaje <= 11) {
+      nuevaPrioridad = 'P2';
+    } else if (puntaje >= 5 && puntaje <= 9) {
+      nuevaPrioridad = 'P3';
+    } else {
+      nuevaPrioridad = 'P4';
+    }
+    handleInputChange('prioridad', nuevaPrioridad);
+  };
+
+  // Manejar cambios en el cálculo de prioridad
+  const handleAfectacionChange = (value) => {
+    setAfectacion(value);
+    const newPuntaje = value + impactoUsuarios + urgencia + horario;
+    actualizarPrioridad(newPuntaje);
+  };
+
+  const handleImpactoChange = (value) => {
+    setImpactoUsuarios(value);
+    const newPuntaje = afectacion + value + urgencia + horario;
+    actualizarPrioridad(newPuntaje);
+  };
+
+  const handleUrgenciaChange = (value) => {
+    setUrgencia(value);
+    const newPuntaje = afectacion + impactoUsuarios + value + horario;
+    actualizarPrioridad(newPuntaje);
+  };
+
+  const handleHorarioChange = (value) => {
+    setHorario(value);
+    const newPuntaje = afectacion + impactoUsuarios + urgencia + value;
+    actualizarPrioridad(newPuntaje);
   };
   
   const calcularDuracion = () => {
@@ -62,21 +114,7 @@ function ComunicadoIncidente() {
         </div>
 
         <div style={{padding: "20px"}}>
-          <div style={{display: "grid", gridTemplateColumns: "1fr 1fr", gap: "15px", marginBottom: "15px"}}>
-            <div>
-              <label style={{display: "block", marginBottom: "5px", fontWeight: "bold", fontSize: "14px"}}>
-                Tipo de Notificación
-              </label>
-              <select 
-                value={formData.tipoNotificacion}
-                onChange={(e) => handleInputChange("tipoNotificacion", e.target.value)}
-                style={{width: "100%", padding: "8px", border: "1px solid #ccc", borderRadius: "4px", fontSize: "14px"}}
-              >
-                <option value="GESTIÓN INCIDENTE">GESTIÓN INCIDENTE</option>
-                <option value="GESTIÓN EVENTO">GESTIÓN EVENTO</option>
-              </select>
-            </div>
-            
+          <div style={{display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: "15px", marginBottom: "15px"}}>
             <div>
               <label style={{display: "block", marginBottom: "5px", fontWeight: "bold", fontSize: "14px"}}>
                 Estado
@@ -91,7 +129,156 @@ function ComunicadoIncidente() {
                 <option value="Resuelto">Resuelto</option>
               </select>
             </div>
+            
+            <div>
+              <div style={{display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "5px"}}>
+                <label style={{display: "block", fontWeight: "bold", fontSize: "14px"}}>
+                  Prioridad
+                </label>
+                <button 
+                  type="button"
+                  onClick={() => setMostrarCalculadoraPrioridad(!mostrarCalculadoraPrioridad)}
+                  style={{fontSize: "12px", color: "#0066B2", backgroundColor: "transparent", border: "none", cursor: "pointer", textDecoration: "underline"}}
+                >
+                  {mostrarCalculadoraPrioridad ? 'Ocultar calculadora' : 'Calcular prioridad'}
+                </button>
+              </div>
+              <select 
+                value={formData.prioridad}
+                onChange={(e) => handleInputChange("prioridad", e.target.value)}
+                style={{width: "100%", padding: "8px", border: "1px solid #ccc", borderRadius: "4px", fontSize: "14px"}}
+              >
+                <option value="P1">P1</option>
+                <option value="P2">P2</option>
+                <option value="P3">P3</option>
+                <option value="P4">P4</option>
+              </select>
+            </div>
+            
+            <div>
+              <label style={{display: "block", marginBottom: "5px", fontWeight: "bold", fontSize: "14px"}}>
+                Tipo de Notificación
+              </label>
+              <select 
+                value={formData.tipoNotificacion}
+                onChange={(e) => handleInputChange("tipoNotificacion", e.target.value)}
+                style={{width: "100%", padding: "8px", border: "1px solid #ccc", borderRadius: "4px", fontSize: "14px"}}
+              >
+                <option value="GESTIÓN INCIDENTE">GESTIÓN INCIDENTE</option>
+                <option value="GESTIÓN EVENTO">GESTIÓN EVENTO</option>
+              </select>
+            </div>
           </div>
+          
+          {mostrarCalculadoraPrioridad && (
+            <div style={{border: "1px solid #b3d1ff", backgroundColor: "#e6f0ff", borderRadius: "8px", padding: "15px", marginBottom: "15px"}}>
+              <h3 style={{fontSize: "18px", fontWeight: "bold", marginBottom: "10px", color: "#0066B2", textAlign: "center"}}>Calculadora de Prioridad</h3>
+              <p style={{textAlign: "center", marginBottom: "10px"}}>
+                Puntaje actual: <span style={{fontWeight: "bold"}}>{calcularPuntajePrioridad()}</span> - Prioridad: <span style={{fontWeight: "bold", color: "#e74c3c"}}>{formData.prioridad}</span>
+              </p>
+              
+              <div style={{display: "grid", gridTemplateColumns: "1fr 1fr 1fr 1fr", gap: "15px", marginBottom: "15px"}}>
+                <div style={{border: "1px solid #b3d1ff", padding: "10px", borderRadius: "8px", backgroundColor: "#f0f8ff"}}>
+                  <h4 style={{fontWeight: "bold", color: "#0066B2", marginBottom: "10px", textAlign: "center", fontSize: "14px"}}>Afectación</h4>
+                  {[
+                    {label: 'Indisponibilidad Total (3)', value: 3},
+                    {label: 'Indisponibilidad Parcial (2)', value: 2},
+                    {label: 'Delay (1)', value: 1},
+                    {label: 'Ninguna (0)', value: 0}
+                  ].map((item, idx) => (
+                    <div key={idx} style={{display: "flex", alignItems: "center", marginBottom: "8px"}}>
+                      <input
+                        type="radio"
+                        name="afectacion"
+                        checked={afectacion === item.value}
+                        onChange={() => handleAfectacionChange(item.value)}
+                        style={{marginRight: "8px"}}
+                      />
+                      <label style={{fontSize: "12px"}}>{item.label}</label>
+                    </div>
+                  ))}
+                </div>
+                
+                <div style={{border: "1px solid #b3d1ff", padding: "10px", borderRadius: "8px", backgroundColor: "#f0f8ff"}}>
+                  <h4 style={{fontWeight: "bold", color: "#0066B2", marginBottom: "10px", textAlign: "center", fontSize: "14px"}}>Impacto</h4>
+                  {[
+                    {label: 'Masivo (3)', value: 3},
+                    {label: 'Múltiple (2)', value: 2},
+                    {label: 'Puntual (1)', value: 1}
+                  ].map((item, idx) => (
+                    <div key={idx} style={{display: "flex", alignItems: "center", marginBottom: "8px"}}>
+                      <input
+                        type="radio"
+                        name="impactoUsuarios"
+                        checked={impactoUsuarios === item.value}
+                        onChange={() => handleImpactoChange(item.value)}
+                        style={{marginRight: "8px"}}
+                      />
+                      <label style={{fontSize: "12px"}}>{item.label}</label>
+                    </div>
+                  ))}
+                </div>
+                
+                <div style={{border: "1px solid #b3d1ff", padding: "10px", borderRadius: "8px", backgroundColor: "#f0f8ff"}}>
+                  <h4 style={{fontWeight: "bold", color: "#0066B2", marginBottom: "10px", textAlign: "center", fontSize: "14px"}}>Urgencia</h4>
+                  {[
+                    {label: 'Crítica (4)', value: 4},
+                    {label: 'Alta (3)', value: 3},
+                    {label: 'Media (2)', value: 2},
+                    {label: 'Baja (1)', value: 1}
+                  ].map((item, idx) => (
+                    <div key={idx} style={{display: "flex", alignItems: "center", marginBottom: "8px"}}>
+                      <input
+                        type="radio"
+                        name="urgencia"
+                        checked={urgencia === item.value}
+                        onChange={() => handleUrgenciaChange(item.value)}
+                        style={{marginRight: "8px"}}
+                      />
+                      <label style={{fontSize: "12px"}}>{item.label}</label>
+                    </div>
+                  ))}
+                </div>
+                
+                <div style={{border: "1px solid #b3d1ff", padding: "10px", borderRadius: "8px", backgroundColor: "#f0f8ff"}}>
+                  <h4 style={{fontWeight: "bold", color: "#0066B2", marginBottom: "10px", textAlign: "center", fontSize: "14px"}}>Horario</h4>
+                  {[
+                    {label: 'Alta Carga TX 08h00-23h00 (2)', value: 2},
+                    {label: 'Baja Carga TX 23h00-08h00 (1)', value: 1}
+                  ].map((item, idx) => (
+                    <div key={idx} style={{display: "flex", alignItems: "center", marginBottom: "8px"}}>
+                      <input
+                        type="radio"
+                        name="horario"
+                        checked={horario === item.value}
+                        onChange={() => handleHorarioChange(item.value)}
+                        style={{marginRight: "8px"}}
+                      />
+                      <label style={{fontSize: "11px"}}>{item.label}</label>
+                    </div>
+                  ))}
+                </div>
+              </div>
+              
+              <div style={{borderTop: "1px solid #b3d1ff", paddingTop: "10px", backgroundColor: "white", padding: "10px", borderRadius: "8px"}}>
+                <p style={{fontSize: "14px", marginBottom: "10px", textAlign: "center", fontWeight: "bold"}}>Criterios de prioridad:</p>
+                <div style={{display: "grid", gridTemplateColumns: "1fr 1fr 1fr 1fr", gap: "10px"}}>
+                  {[
+                    {bg: '#ffebeb', titulo: 'P1 (≥12)', nivel: 'Alta', tiempo: '5 minutos'},
+                    {bg: '#fff3e0', titulo: 'P2 (10-11)', nivel: 'Media', tiempo: '10 minutos'},
+                    {bg: '#fffbf0', titulo: 'P3 (5-9)', nivel: 'Baja', tiempo: '15 minutos'},
+                    {bg: '#f0f8e8', titulo: 'P4 (≤4)', nivel: 'Muy Baja', tiempo: '20 minutos'}
+                  ].map((criterio, idx) => (
+                    <div key={idx} style={{backgroundColor: criterio.bg, padding: "8px", borderRadius: "4px", textAlign: "center"}}>
+                      <p style={{fontSize: "12px", margin: 0, fontWeight: "bold"}}>{criterio.titulo}</p>
+                      <p style={{fontSize: "11px", margin: 0}}>{criterio.nivel}</p>
+                      <p style={{fontSize: "11px", margin: 0}}>Atención en {criterio.tiempo}</p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          )}
           
           <div style={{display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: "15px", marginBottom: "15px"}}>
             <div>
@@ -174,25 +361,13 @@ function ComunicadoIncidente() {
           
           <div style={{marginBottom: "15px"}}>
             <label style={{display: "block", marginBottom: "5px", fontWeight: "bold", fontSize: "14px"}}>
-              Texto de Soporte
+              Texto de Nota
             </label>
             <textarea 
-              value={formData.soporte}
-              onChange={(e) => handleInputChange("soporte", e.target.value)}
-              placeholder="Información de contacto y asistencia para los usuarios"
+              value={formData.nota}
+              onChange={(e) => handleInputChange("nota", e.target.value)}
+              placeholder="Describir la nota si aplica - información adicional relevante"
               style={{width: "100%", padding: "8px", border: "1px solid #ccc", borderRadius: "4px", fontSize: "14px", minHeight: "80px"}}
-            />
-          </div>
-          
-          <div style={{marginBottom: "15px"}}>
-            <label style={{display: "block", marginBottom: "5px", fontWeight: "bold", fontSize: "14px"}}>
-              Teléfono de Soporte
-            </label>
-            <input 
-              type="text"
-              value={formData.telefono}
-              onChange={(e) => handleInputChange("telefono", e.target.value)}
-              style={{width: "100%", padding: "8px", border: "1px solid #ccc", borderRadius: "4px", fontSize: "14px"}}
             />
           </div>
           
@@ -231,8 +406,13 @@ function ComunicadoIncidente() {
       </div>
       
       <div style={{padding: "20px"}}>
-        <div style={{border: "1px solid #ccc", padding: "20px", marginBottom: "15px"}}>
-          <h2 style={{color: "#0066B2", fontSize: "16px", marginBottom: "5px", fontWeight: "bold"}}>Problema</h2>
+        <div style={{border: "1px solid #ccc", padding: "20px", marginBottom: "15px", position: "relative"}}>
+          <div style={{position: "absolute", top: "15px", right: "15px", backgroundColor: "#f0f8ff", color: "#0066B2", padding: "8px 12px", borderRadius: "8px", textAlign: "center", minWidth: "70px", border: "2px solid #0066B2"}}>
+            <div style={{fontSize: "11px", fontWeight: "bold", marginBottom: "2px"}}>Prioridad</div>
+            <div style={{fontSize: "18px", fontWeight: "bold"}}>{formData.prioridad}</div>
+          </div>
+          
+          <h2 style={{color: "#0066B2", fontSize: "16px", marginBottom: "5px", fontWeight: "bold"}}>Descripción</h2>
           <p style={{fontSize: "14px", lineHeight: "1.5", margin: "0 0 15px 0"}}>{problemaTexto}</p>
           
           <h2 style={{color: "#0066B2", fontSize: "16px", marginBottom: "5px", fontWeight: "bold"}}>Impacto</h2>
@@ -241,19 +421,20 @@ function ComunicadoIncidente() {
           <h2 style={{color: "#0066B2", fontSize: "16px", marginBottom: "5px", fontWeight: "bold"}}>Resolución</h2>
           <p style={{fontSize: "14px", lineHeight: "1.5", margin: "0 0 15px 0"}}>{formData.resolucion || "No se ha proporcionado información sobre la resolución"}</p>
           
-          <h2 style={{color: "#0066B2", fontSize: "16px", marginBottom: "5px", fontWeight: "bold"}}>Soporte</h2>
+          <h2 style={{color: "#0066B2", fontSize: "16px", marginBottom: "5px", fontWeight: "bold"}}>Nota</h2>
           <p style={{fontSize: "14px", lineHeight: "1.5", margin: "0"}}>
-            {formData.soporte.replace('{telefono}', formData.telefono)}
+            {formData.nota}
           </p>
         </div>
         
-        <div style={{backgroundColor: "#0e1c36", color: "white", padding: "10px 20px", fontSize: "14px"}}>
-          <a href="/" style={{color: "#b3d1ff", textDecoration: "none", marginRight: "10px"}}>Darse de baja</a> | 
-          <a href="/" style={{color: "#b3d1ff", textDecoration: "none", marginLeft: "10px"}}>Gestionar Preferencias</a>
-        </div>
-        
-        <div style={{fontSize: "12px", color: "#666", margin: "10px 0"}}>
-          Ref: xxxxxx
+        <div style={{backgroundColor: "#0e1c36", color: "white", padding: "15px 20px", display: "flex", alignItems: "center", justifyContent: "space-between"}}>
+          <div style={{width: "85px", height: "85px", display: "flex", alignItems: "center", justifyContent: "center"}}>
+            <img 
+              src="https://www.dropbox.com/scl/fi/wr90vk30xq57j0w9mqxpl/logo.png?rlkey=yy1117ess35a6uc5lwbdziq6u&raw=1"
+              alt="Logo DCI" 
+              style={{width: "100%", height: "100%", objectFit: "contain"}}
+            />
+          </div>
         </div>
         
         <button 
