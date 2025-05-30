@@ -135,13 +135,7 @@ function ComunicadoIncidente() {
             background: "rgba(255,255,255,0.05)",
             backdropFilter: "blur(10px)"
           }}></div>
-          <div style={{
-            display: "flex",
-            alignItems: "center",
-            gap: "15px",
-            position: "relative",
-            zIndex: 1
-          }}>
+          <div style={{position: "relative", zIndex: 1, display: "flex", alignItems: "center", gap: "15px"}}>
             <div style={{
               fontSize: "36px",
               opacity: 0.9
@@ -498,10 +492,7 @@ function ComunicadoIncidente() {
       <div style={{
         background: "linear-gradient(135deg, #0e1c36 0%, #1a365d 50%, #2c5282 100%)",
         color: "white", 
-        padding: "20px 30px", 
-        display: "flex", 
-        alignItems: "center", 
-        justifyContent: "space-between",
+        padding: "20px 30px",
         position: "relative",
         overflow: "hidden"
       }}>
@@ -514,19 +505,13 @@ function ComunicadoIncidente() {
           background: "rgba(255,255,255,0.05)",
           backdropFilter: "blur(10px)"
         }}></div>
+        <div style={{position: "relative", zIndex: 1, display: "flex", alignItems: "center", gap: "15px"}}>
           <div style={{
-            display: "flex",
-            alignItems: "center",
-            gap: "15px",
-            position: "relative",
-            zIndex: 1
+            fontSize: "36px",
+            opacity: 0.9
           }}>
-            <div style={{
-              fontSize: "36px",
-              opacity: 0.9
-            }}>
-              {formData.tipoNotificacion.includes("INCIDENTE") ? "🚨" : "⚙️"}
-            </div>
+            {formData.tipoNotificacion.includes("INCIDENTE") ? "🚨" : "⚙️"}
+          </div>
           <h1 style={{
             margin: 0, 
             fontSize: "32px", 
@@ -547,8 +532,10 @@ function ComunicadoIncidente() {
           borderRadius: "12px",
           backdropFilter: "blur(10px)",
           border: "1px solid rgba(255,255,255,0.2)",
-          position: "relative",
-          zIndex: 1
+          position: "absolute",
+          right: "30px",
+          top: "50%",
+          transform: "translateY(-50%)"
         }}>
           <img 
             src="https://www.dropbox.com/scl/fi/wr90vk30xq57j0w9mqxpl/logo.png?rlkey=yy1117ess35a6uc5lwbdziq6u&raw=1"
@@ -601,81 +588,27 @@ function ComunicadoIncidente() {
         <div style={{
           background: "linear-gradient(135deg, #2c5282 0%, #1a365d 50%, #0e1c36 100%)",
           color: "white", 
-          padding: "20px 30px", 
-          display: "flex", 
-          alignItems: "center", 
-          justifyContent: "center",
-          position: "relative",
-          overflow: "hidden"
+          padding: "30px",
+          textAlign: "center"
         }}>
-          <div style={{
-            position: "absolute",
-            top: 0,
-            left: 0,
-            right: 0,
-            bottom: 0,
-            background: "rgba(255,255,255,0.05)",
-            backdropFilter: "blur(10px)"
-          }}></div>
-          <div style={{
-            display: "flex",
-            alignItems: "center",
-            gap: "15px",
-            position: "relative",
-            zIndex: 1
+          <h2 style={{
+            margin: 0,
+            fontSize: "28px",
+            fontWeight: "300",
+            letterSpacing: "2px",
+            fontFamily: "serif"
           }}>
-          <div style={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "space-between",
-            width: "100%",
-            position: "relative",
-            zIndex: 1
+            DinersClub
+          </h2>
+          <p style={{
+            margin: "5px 0 0 0",
+            fontSize: "16px",
+            opacity: 0.9,
+            letterSpacing: "1px",
+            fontStyle: "italic"
           }}>
-            <div style={{
-              width: "60px", 
-              height: "60px", 
-              display: "flex", 
-              alignItems: "center", 
-              justifyContent: "center",
-              background: "rgba(255,255,255,0.1)",
-              borderRadius: "10px",
-              backdropFilter: "blur(10px)",
-              border: "1px solid rgba(255,255,255,0.2)"
-            }}>
-              <img 
-                src="https://www.dropbox.com/scl/fi/wr90vk30xq57j0w9mqxpl/logo.png?rlkey=yy1117ess35a6uc5lwbdziq6u&raw=1"
-                alt="Logo DCI" 
-                style={{width: "45px", height: "45px", objectFit: "contain"}}
-              />
-            </div>
-            
-            <div style={{
-              textAlign: "right"
-            }}>
-              <h2 style={{
-                margin: 0,
-                fontSize: "24px",
-                fontWeight: "300",
-                textShadow: "0 1px 2px rgba(0,0,0,0.3)",
-                letterSpacing: "2px",
-                fontFamily: "serif"
-              }}>
-                DinersClub
-              </h2>
-              <p style={{
-                margin: "2px 0 0 0",
-                fontSize: "14px",
-                opacity: 0.9,
-                fontWeight: "400",
-                letterSpacing: "1px",
-                fontStyle: "italic"
-              }}>
-                International
-              </p>
-            </div>
-          </div>
-          </div>
+            International
+          </p>
         </div>
         
         <button 
