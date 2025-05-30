@@ -164,7 +164,7 @@ function ComunicadoIncidente() {
                 opacity: 0.9,
                 fontWeight: "300"
               }}>
-                Sistema de gestión y notificación de incidentes técnicos
+                Sistema de gestión y notificación técnica
               </p>
             </div>
           </div>
