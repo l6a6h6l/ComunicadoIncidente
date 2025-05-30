@@ -119,8 +119,55 @@ function ComunicadoIncidente() {
   if (showForm) {
     return (
       <div style={{maxWidth: "800px", margin: "0 auto", backgroundColor: "white", borderRadius: "8px", boxShadow: "0 2px 10px rgba(0,0,0,0.1)", overflow: "hidden"}}>
-        <div style={{backgroundColor: "#0e1c36", color: "white", padding: "15px 20px"}}>
-          <h1 style={{margin: 0, fontSize: "24px"}}>Crear Comunicado de Incidente</h1>
+        <div style={{
+          background: "linear-gradient(135deg, #0e1c36 0%, #1a365d 50%, #2c5282 100%)",
+          color: "white", 
+          padding: "20px 30px",
+          position: "relative",
+          overflow: "hidden"
+        }}>
+          <div style={{
+            position: "absolute",
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            background: "rgba(255,255,255,0.05)",
+            backdropFilter: "blur(10px)"
+          }}></div>
+          <div style={{
+            display: "flex",
+            alignItems: "center",
+            gap: "15px",
+            position: "relative",
+            zIndex: 1
+          }}>
+            <div style={{
+              fontSize: "36px",
+              opacity: 0.9
+            }}>
+              {formData.tipoNotificacion.includes("INCIDENTE") ? "🚨" : "⚙️"}
+            </div>
+            <div>
+              <h1 style={{
+                margin: 0, 
+                fontSize: "28px", 
+                fontWeight: "600",
+                textShadow: "0 2px 4px rgba(0,0,0,0.3)",
+                letterSpacing: "0.5px"
+              }}>
+                🔧 Crear Comunicado de {formData.tipoNotificacion.includes("INCIDENTE") ? "Incidente" : "Evento"}
+              </h1>
+              <p style={{
+                margin: "8px 0 0 0",
+                fontSize: "14px",
+                opacity: 0.9,
+                fontWeight: "300"
+              }}>
+                Sistema de gestión y notificación de incidentes técnicos
+              </p>
+            </div>
+          </div>
         </div>
 
         <div style={{padding: "20px"}}>
@@ -341,7 +388,18 @@ function ComunicadoIncidente() {
               value={formData.descripcion}
               onChange={(e) => handleInputChange("descripcion", e.target.value)}
               placeholder="Aquí describir brevemente el incidente o evento técnico incluyendo detalles relevantes"
-              style={{width: "100%", padding: "8px", border: "1px solid #ccc", borderRadius: "4px", fontSize: "14px", minHeight: "80px"}}
+              style={{
+                width: "100%", 
+                padding: "8px", 
+                border: "1px solid #ccc", 
+                borderRadius: "4px", 
+                fontSize: "14px", 
+                minHeight: "80px",
+                resize: "vertical",
+                fontFamily: "inherit",
+                lineHeight: "1.5"
+              }}
+              rows={4}
             />
           </div>
           
@@ -353,7 +411,18 @@ function ComunicadoIncidente() {
               value={formData.impacto}
               onChange={(e) => handleInputChange("impacto", e.target.value)}
               placeholder="Detallar las consecuencias para los usuarios/clientes y posibles plazos de resolución"
-              style={{width: "100%", padding: "8px", border: "1px solid #ccc", borderRadius: "4px", fontSize: "14px", minHeight: "80px"}}
+              style={{
+                width: "100%", 
+                padding: "8px", 
+                border: "1px solid #ccc", 
+                borderRadius: "4px", 
+                fontSize: "14px", 
+                minHeight: "80px",
+                resize: "vertical",
+                fontFamily: "inherit",
+                lineHeight: "1.5"
+              }}
+              rows={4}
             />
           </div>
           
@@ -365,7 +434,18 @@ function ComunicadoIncidente() {
               value={formData.resolucion}
               onChange={(e) => handleInputChange("resolucion", e.target.value)}
               placeholder="Explicar las acciones tomadas para resolver el problema y su estado actual"
-              style={{width: "100%", padding: "8px", border: "1px solid #ccc", borderRadius: "4px", fontSize: "14px", minHeight: "80px"}}
+              style={{
+                width: "100%", 
+                padding: "8px", 
+                border: "1px solid #ccc", 
+                borderRadius: "4px", 
+                fontSize: "14px", 
+                minHeight: "80px",
+                resize: "vertical",
+                fontFamily: "inherit",
+                lineHeight: "1.5"
+              }}
+              rows={4}
             />
           </div>
           
@@ -377,7 +457,18 @@ function ComunicadoIncidente() {
               value={formData.nota}
               onChange={(e) => handleInputChange("nota", e.target.value)}
               placeholder="Describir la nota si aplica - información adicional relevante"
-              style={{width: "100%", padding: "8px", border: "1px solid #ccc", borderRadius: "4px", fontSize: "14px", minHeight: "80px"}}
+              style={{
+                width: "100%", 
+                padding: "8px", 
+                border: "1px solid #ccc", 
+                borderRadius: "4px", 
+                fontSize: "14px", 
+                minHeight: "80px",
+                resize: "vertical",
+                fontFamily: "inherit",
+                lineHeight: "1.5"
+              }}
+              rows={4}
             />
           </div>
           
@@ -404,13 +495,65 @@ function ComunicadoIncidente() {
 
   return (
     <div style={{maxWidth: "800px", margin: "0 auto", backgroundColor: "white", borderRadius: "8px", boxShadow: "0 2px 10px rgba(0,0,0,0.1)", overflow: "hidden"}}>
-      <div style={{backgroundColor: "#0e1c36", color: "white", padding: "15px 20px", display: "flex", alignItems: "center", justifyContent: "space-between"}}>
-        <h1 style={{margin: 0, fontSize: "30px", fontWeight: "bold"}}>{formData.tipoNotificacion}</h1>
-        <div style={{width: "85px", height: "85px", display: "flex", alignItems: "center", justifyContent: "center"}}>
+      <div style={{
+        background: "linear-gradient(135deg, #0e1c36 0%, #1a365d 50%, #2c5282 100%)",
+        color: "white", 
+        padding: "20px 30px", 
+        display: "flex", 
+        alignItems: "center", 
+        justifyContent: "space-between",
+        position: "relative",
+        overflow: "hidden"
+      }}>
+        <div style={{
+          position: "absolute",
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          background: "rgba(255,255,255,0.05)",
+          backdropFilter: "blur(10px)"
+        }}></div>
+          <div style={{
+            display: "flex",
+            alignItems: "center",
+            gap: "15px",
+            position: "relative",
+            zIndex: 1
+          }}>
+            <div style={{
+              fontSize: "36px",
+              opacity: 0.9
+            }}>
+              {formData.tipoNotificacion.includes("INCIDENTE") ? "🚨" : "⚙️"}
+            </div>
+          <h1 style={{
+            margin: 0, 
+            fontSize: "32px", 
+            fontWeight: "700",
+            textShadow: "0 2px 4px rgba(0,0,0,0.3)",
+            letterSpacing: "0.5px"
+          }}>
+            {formData.tipoNotificacion}
+          </h1>
+        </div>
+        <div style={{
+          width: "90px", 
+          height: "90px", 
+          display: "flex", 
+          alignItems: "center", 
+          justifyContent: "center",
+          background: "rgba(255,255,255,0.1)",
+          borderRadius: "12px",
+          backdropFilter: "blur(10px)",
+          border: "1px solid rgba(255,255,255,0.2)",
+          position: "relative",
+          zIndex: 1
+        }}>
           <img 
             src="https://www.dropbox.com/scl/fi/wr90vk30xq57j0w9mqxpl/logo.png?rlkey=yy1117ess35a6uc5lwbdziq6u&raw=1"
             alt="Logo DCI" 
-            style={{width: "100%", height: "100%", objectFit: "contain"}}
+            style={{width: "70px", height: "70px", objectFit: "contain"}}
           />
         </div>
       </div>
@@ -438,28 +581,100 @@ function ComunicadoIncidente() {
             </div>
           </div>
           
-          <h2 style={{color: "#0066B2", fontSize: "16px", marginBottom: "5px", fontWeight: "bold"}}>Descripción</h2>
-          <p style={{fontSize: "14px", lineHeight: "1.5", margin: "0 0 15px 0"}}>{problemaTexto}</p>
-          
-          <h2 style={{color: "#0066B2", fontSize: "16px", marginBottom: "5px", fontWeight: "bold"}}>Impacto</h2>
-          <p style={{fontSize: "14px", lineHeight: "1.5", margin: "0 0 15px 0"}}>{formData.impacto || "No se ha proporcionado información sobre el impacto"}</p>
-          
-          <h2 style={{color: "#0066B2", fontSize: "16px", marginBottom: "5px", fontWeight: "bold"}}>Resolución</h2>
-          <p style={{fontSize: "14px", lineHeight: "1.5", margin: "0 0 15px 0"}}>{formData.resolucion || "No se ha proporcionado información sobre la resolución"}</p>
-          
-          <h2 style={{color: "#0066B2", fontSize: "16px", marginBottom: "5px", fontWeight: "bold"}}>Nota</h2>
-          <p style={{fontSize: "14px", lineHeight: "1.5", margin: "0"}}>
-            {formData.nota}
-          </p>
+          <div style={{marginRight: "200px"}}>
+            <h2 style={{color: "#0066B2", fontSize: "16px", marginBottom: "5px", fontWeight: "bold"}}>Descripción</h2>
+            <p style={{fontSize: "14px", lineHeight: "1.5", margin: "0 0 15px 0", whiteSpace: "pre-wrap"}}>{problemaTexto}</p>
+            
+            <h2 style={{color: "#0066B2", fontSize: "16px", marginBottom: "5px", fontWeight: "bold"}}>Impacto</h2>
+            <p style={{fontSize: "14px", lineHeight: "1.5", margin: "0 0 15px 0", whiteSpace: "pre-wrap"}}>{formData.impacto || "No se ha proporcionado información sobre el impacto"}</p>
+            
+            <h2 style={{color: "#0066B2", fontSize: "16px", marginBottom: "5px", fontWeight: "bold"}}>Resolución</h2>
+            <p style={{fontSize: "14px", lineHeight: "1.5", margin: "0 0 15px 0", whiteSpace: "pre-wrap"}}>{formData.resolucion || "No se ha proporcionado información sobre la resolución"}</p>
+            
+            <h2 style={{color: "#0066B2", fontSize: "16px", marginBottom: "5px", fontWeight: "bold"}}>Nota</h2>
+            <p style={{fontSize: "14px", lineHeight: "1.5", margin: "0", whiteSpace: "pre-wrap"}}>
+              {formData.nota}
+            </p>
+          </div>
         </div>
         
-        <div style={{backgroundColor: "#0e1c36", color: "white", padding: "15px 20px", display: "flex", alignItems: "center", justifyContent: "space-between"}}>
-          <div style={{width: "85px", height: "85px", display: "flex", alignItems: "center", justifyContent: "center"}}>
-            <img 
-              src="https://www.dropbox.com/scl/fi/wr90vk30xq57j0w9mqxpl/logo.png?rlkey=yy1117ess35a6uc5lwbdziq6u&raw=1"
-              alt="Logo DCI" 
-              style={{width: "100%", height: "100%", objectFit: "contain"}}
-            />
+        <div style={{
+          background: "linear-gradient(135deg, #2c5282 0%, #1a365d 50%, #0e1c36 100%)",
+          color: "white", 
+          padding: "20px 30px", 
+          display: "flex", 
+          alignItems: "center", 
+          justifyContent: "center",
+          position: "relative",
+          overflow: "hidden"
+        }}>
+          <div style={{
+            position: "absolute",
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            background: "rgba(255,255,255,0.05)",
+            backdropFilter: "blur(10px)"
+          }}></div>
+          <div style={{
+            display: "flex",
+            alignItems: "center",
+            gap: "15px",
+            position: "relative",
+            zIndex: 1
+          }}>
+          <div style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+            width: "100%",
+            position: "relative",
+            zIndex: 1
+          }}>
+            <div style={{
+              width: "60px", 
+              height: "60px", 
+              display: "flex", 
+              alignItems: "center", 
+              justifyContent: "center",
+              background: "rgba(255,255,255,0.1)",
+              borderRadius: "10px",
+              backdropFilter: "blur(10px)",
+              border: "1px solid rgba(255,255,255,0.2)"
+            }}>
+              <img 
+                src="https://www.dropbox.com/scl/fi/wr90vk30xq57j0w9mqxpl/logo.png?rlkey=yy1117ess35a6uc5lwbdziq6u&raw=1"
+                alt="Logo DCI" 
+                style={{width: "45px", height: "45px", objectFit: "contain"}}
+              />
+            </div>
+            
+            <div style={{
+              textAlign: "right"
+            }}>
+              <h2 style={{
+                margin: 0,
+                fontSize: "24px",
+                fontWeight: "300",
+                textShadow: "0 1px 2px rgba(0,0,0,0.3)",
+                letterSpacing: "2px",
+                fontFamily: "serif"
+              }}>
+                DinersClub
+              </h2>
+              <p style={{
+                margin: "2px 0 0 0",
+                fontSize: "14px",
+                opacity: 0.9,
+                fontWeight: "400",
+                letterSpacing: "1px",
+                fontStyle: "italic"
+              }}>
+                International
+              </p>
+            </div>
+          </div>
           </div>
         </div>
         
