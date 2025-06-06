@@ -522,27 +522,19 @@ function ComunicadoIncidente() {
             {formData.tipoNotificacion}
           </h1>
         </div>
-        <div style={{
-          width: "90px", 
-          height: "90px", 
-          display: "flex", 
-          alignItems: "center", 
-          justifyContent: "center",
-          background: "rgba(255,255,255,0.1)",
-          borderRadius: "12px",
-          backdropFilter: "blur(10px)",
-          border: "1px solid rgba(255,255,255,0.2)",
-          position: "absolute",
-          right: "30px",
-          top: "50%",
-          transform: "translateY(-50%)"
-        }}>
-          <img 
-            src="https://www.dropbox.com/scl/fi/wr90vk30xq57j0w9mqxpl/logo.png?rlkey=yy1117ess35a6uc5lwbdziq6u&raw=1"
-            alt="Logo DCI" 
-            style={{width: "70px", height: "70px", objectFit: "contain"}}
-          />
-        </div>
+        <img 
+          src="https://www.dropbox.com/scl/fi/wr90vk30xq57j0w9mqxpl/logo.png?rlkey=yy1117ess35a6uc5lwbdziq6u&raw=1"
+          alt="Logo DCI" 
+          style={{
+            width: "100px", 
+            height: "100px", 
+            objectFit: "contain",
+            position: "absolute",
+            right: "30px",
+            top: "50%",
+            transform: "translateY(-50%)"
+          }}
+        />
       </div>
       
       <div style={{padding: "20px"}}>
