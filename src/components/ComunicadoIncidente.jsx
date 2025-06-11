@@ -118,61 +118,77 @@ function ComunicadoIncidente() {
 
   const copyAsImage = async () => {
     try {
-      // Buscar el elemento del comunicado
       const communicationElement = document.querySelector('[data-communication="preview"]');
       if (!communicationElement) {
         alert('Error: No se encontró el comunicado para capturar');
         return;
       }
 
-      // Cargar html2canvas de forma compatible
-      if (!window.html2canvas) {
-        const script = document.createElement('script');
-        script.src = 'https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js';
-        script.onload = () => {
-          setTimeout(() => captureAndCopy(communicationElement), 100);
-        };
-        document.head.appendChild(script);
-      } else {
-        captureAndCopy(communicationElement);
-      }
+      // Función para cargar html2canvas
+      const loadHtml2Canvas = () => {
+        return new Promise((resolve, reject) => {
+          if (window.html2canvas) {
+            resolve(window.html2canvas);
+            return;
+          }
+          
+          const script = document.createElement('script');
+          script.src = 'https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js';
+          script.onload = () => resolve(window.html2canvas);
+          script.onerror = reject;
+          document.head.appendChild(script);
+        });
+      };
 
-    } catch (error) {
-      console.error('Error al capturar imagen:', error);
-      alert('Error al generar la imagen. Inténtalo de nuevo.');
-    }
-  };
-
-  const captureAndCopy = async (element) => {
-    try {
-      const canvas = await window.html2canvas(element, {
+      // Cargar y usar html2canvas
+      const html2canvas = await loadHtml2Canvas();
+      
+      // Configurar opciones para mejor calidad
+      const canvas = await html2canvas(communicationElement, {
         backgroundColor: '#ffffff',
         scale: 2,
         useCORS: true,
-        allowTaint: true
+        allowTaint: false,
+        foreignObjectRendering: true,
+        logging: false,
+        width: communicationElement.scrollWidth,
+        height: communicationElement.scrollHeight
       });
 
-      // Convertir a blob
+      // Intentar copiar al clipboard
       canvas.toBlob(async (blob) => {
+        if (!blob) {
+          alert('Error al generar la imagen');
+          return;
+        }
+
         try {
-          await navigator.clipboard.write([
-            new ClipboardItem({ 'image/png': blob })
-          ]);
-          alert('Comunicado copiado como imagen al portapapeles');
+          // Intentar copiar al clipboard
+          if (navigator.clipboard && window.ClipboardItem) {
+            await navigator.clipboard.write([
+              new ClipboardItem({ 'image/png': blob })
+            ]);
+            alert('✅ Comunicado copiado al portapapeles\nYa puedes pegarlo en tu correo con Ctrl+V');
+          } else {
+            throw new Error('Clipboard API no disponible');
+          }
         } catch (err) {
           // Fallback: descargar la imagen
-          const url = canvas.toDataURL('image/png');
+          const url = URL.createObjectURL(blob);
           const link = document.createElement('a');
-          link.download = `comunicado-${formData.referencia}.png`;
+          link.download = `comunicado-${new Date().getTime()}.png`;
           link.href = url;
+          document.body.appendChild(link);
           link.click();
-          alert('Imagen descargada (no se pudo copiar al portapapeles)');
+          document.body.removeChild(link);
+          URL.revokeObjectURL(url);
+          alert('📱 Imagen descargada\nBusca el archivo en tu carpeta de descargas');
         }
-      }, 'image/png');
+      }, 'image/png', 0.95);
 
     } catch (error) {
-      console.error('Error al capturar imagen:', error);
-      alert('Error al generar la imagen. Inténtalo de nuevo.');
+      console.error('Error:', error);
+      alert('❌ Error al generar la imagen\nIntenta de nuevo o actualiza la página');
     }
   };
   
