@@ -118,10 +118,31 @@ function ComunicadoIncidente() {
 
   const copyAsImage = async () => {
     try {
-      const communicationElement = document.querySelector('[data-communication="preview"]');
+      // Buscar el elemento del comunicado de forma más específica
+      const communicationElement = document.querySelector('div[data-communication="preview"]') || 
+                                   document.querySelector('.communication-preview') ||
+                                   document.querySelector('div').closest('[style*="maxWidth: \\"800px\\""]');
+      
       if (!communicationElement) {
-        alert('Error: No se encontró el comunicado para capturar');
-        return;
+        // Como último recurso, buscar por contenido específico
+        const allDivs = document.querySelectorAll('div');
+        let foundElement = null;
+        
+        for (let div of allDivs) {
+          if (div.textContent.includes('Descripción') && 
+              div.textContent.includes('Diners Club') && 
+              div.style.maxWidth === '800px') {
+            foundElement = div;
+            break;
+          }
+        }
+        
+        if (!foundElement) {
+          alert('Error: No se encontró el comunicado para capturar.\nAsegúrate de estar en la vista previa.');
+          return;
+        }
+        
+        communicationElement = foundElement;
       }
 
       // Función para cargar html2canvas
