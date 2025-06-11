@@ -118,68 +118,77 @@ function ComunicadoIncidente() {
 
   const copyAsImage = async () => {
     try {
-      // Buscar el elemento del comunicado de forma más específica
-      const communicationElement = document.querySelector('div[data-communication="preview"]') || 
-                                   document.querySelector('.communication-preview') ||
-                                   document.querySelector('div').closest('[style*="maxWidth: \\"800px\\""]');
+      // Buscar el elemento del comunicado
+      let communicationElement = document.querySelector('div[data-communication="preview"]');
       
       if (!communicationElement) {
-        // Como último recurso, buscar por contenido específico
+        // Buscar el contenedor principal de la vista previa
         const allDivs = document.querySelectorAll('div');
-        let foundElement = null;
-        
         for (let div of allDivs) {
           if (div.textContent.includes('Descripción') && 
               div.textContent.includes('Diners Club') && 
-              div.style.maxWidth === '800px') {
-            foundElement = div;
+              div.style.maxWidth) {
+            communicationElement = div;
             break;
           }
         }
-        
-        if (!foundElement) {
-          alert('Error: No se encontró el comunicado para capturar.\nAsegúrate de estar en la vista previa.');
-          return;
-        }
-        
-        communicationElement = foundElement;
+      }
+      
+      if (!communicationElement) {
+        alert('Error: No se encontró el comunicado.\nAsegúrate de estar en la vista previa.');
+        return;
       }
 
-      // Función para cargar html2canvas
-      const loadHtml2Canvas = () => {
+      // Función simple para cargar html2canvas
+      const loadScript = () => {
         return new Promise((resolve, reject) => {
           if (window.html2canvas) {
-            resolve(window.html2canvas);
+            resolve();
             return;
           }
           
           const script = document.createElement('script');
-          script.src = 'https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js';
-          script.onload = () => resolve(window.html2canvas);
-          script.onerror = reject;
+          script.src = 'https://html2canvas.hertzen.com/dist/html2canvas.min.js';
+          script.onload = resolve;
+          script.onerror = () => {
+            // Intentar URL alternativa
+            const script2 = document.createElement('script');
+            script2.src = 'https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js';
+            script2.onload = resolve;
+            script2.onerror = reject;
+            document.head.appendChild(script2);
+          };
           document.head.appendChild(script);
         });
       };
 
-      // Cargar y usar html2canvas
-      const html2canvas = await loadHtml2Canvas();
+      // Cargar la librería
+      await loadScript();
       
-      // Configurar opciones para mejor calidad
-      const canvas = await html2canvas(communicationElement, {
+      if (!window.html2canvas) {
+        alert('Error: No se pudo cargar la librería de captura.\nIntenta actualizar la página.');
+        return;
+      }
+
+      // Capturar con configuración simplificada
+      const canvas = await window.html2canvas(communicationElement, {
         backgroundColor: '#ffffff',
-        scale: 2,
+        scale: 1.5,
         useCORS: true,
-        allowTaint: false,
-        foreignObjectRendering: true,
+        allowTaint: true,
         logging: false,
-        width: communicationElement.scrollWidth,
-        height: communicationElement.scrollHeight
+        removeContainer: true
       });
 
-      // Intentar copiar al clipboard
+      if (!canvas) {
+        alert('Error: No se pudo crear la imagen.\nIntenta de nuevo.');
+        return;
+      }
+
+      // Convertir a blob y manejar
       canvas.toBlob(async (blob) => {
         if (!blob) {
-          alert('Error al generar la imagen');
+          alert('Error: No se pudo generar el archivo de imagen.');
           return;
         }
 
@@ -189,27 +198,32 @@ function ComunicadoIncidente() {
             await navigator.clipboard.write([
               new ClipboardItem({ 'image/png': blob })
             ]);
-            alert('✅ Comunicado copiado al portapapeles\nYa puedes pegarlo en tu correo con Ctrl+V');
+            alert('✅ ¡Comunicado copiado!\nPega en tu correo con Ctrl+V');
           } else {
-            throw new Error('Clipboard API no disponible');
+            throw new Error('Clipboard no disponible');
           }
-        } catch (err) {
-          // Fallback: descargar la imagen
-          const url = URL.createObjectURL(blob);
-          const link = document.createElement('a');
-          link.download = `comunicado-${new Date().getTime()}.png`;
-          link.href = url;
-          document.body.appendChild(link);
-          link.click();
-          document.body.removeChild(link);
-          URL.revokeObjectURL(url);
-          alert('📱 Imagen descargada\nBusca el archivo en tu carpeta de descargas');
+        } catch (clipboardError) {
+          // Fallback: descargar archivo
+          try {
+            const url = URL.createObjectURL(blob);
+            const link = document.createElement('a');
+            link.download = `comunicado-${Date.now()}.png`;
+            link.href = url;
+            link.style.display = 'none';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            URL.revokeObjectURL(url);
+            alert('📱 Imagen descargada exitosamente\nRevisa tu carpeta de descargas');
+          } catch (downloadError) {
+            alert('❌ Error al procesar la imagen\nIntenta actualizar la página');
+          }
         }
-      }, 'image/png', 0.95);
+      }, 'image/png', 0.9);
 
     } catch (error) {
-      console.error('Error:', error);
-      alert('❌ Error al generar la imagen\nIntenta de nuevo o actualiza la página');
+      console.error('Error completo:', error);
+      alert(`❌ Error técnico: ${error.message}\nActualiza la página e intenta de nuevo`);
     }
   };
   
