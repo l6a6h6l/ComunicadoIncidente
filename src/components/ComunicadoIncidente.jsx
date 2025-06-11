@@ -115,10 +115,53 @@ function ComunicadoIncidente() {
       return "";
     }
   };
+
+  const copyAsImage = async () => {
+    try {
+      // Buscar el elemento del comunicado
+      const communicationElement = document.querySelector('[data-communication="preview"]');
+      if (!communicationElement) {
+        alert('Error: No se encontró el comunicado para capturar');
+        return;
+      }
+
+      // Usar html2canvas para capturar como imagen
+      const html2canvas = (await import('https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js')).default;
+      
+      const canvas = await html2canvas(communicationElement, {
+        backgroundColor: '#ffffff',
+        scale: 2,
+        useCORS: true,
+        allowTaint: true
+      });
+
+      // Convertir a blob
+      canvas.toBlob(async (blob) => {
+        try {
+          await navigator.clipboard.write([
+            new ClipboardItem({ 'image/png': blob })
+          ]);
+          alert('Comunicado copiado como imagen al portapapeles');
+        } catch (err) {
+          // Fallback: descargar la imagen
+          const url = canvas.toDataURL('image/png');
+          const link = document.createElement('a');
+          link.download = `comunicado-${formData.referencia}.png`;
+          link.href = url;
+          link.click();
+          alert('Imagen descargada (no se pudo copiar al portapapeles)');
+        }
+      }, 'image/png');
+
+    } catch (error) {
+      console.error('Error al capturar imagen:', error);
+      alert('Error al generar la imagen. Inténtalo de nuevo.');
+    }
+  };
   
   if (showForm) {
     return (
-      <div style={{maxWidth: "800px", margin: "0 auto", backgroundColor: "white", borderRadius: "8px", boxShadow: "0 2px 10px rgba(0,0,0,0.1)", overflow: "hidden"}}>
+      <div style={{maxWidth: "800px", margin: "0 auto", backgroundColor: "white", borderRadius: "8px", boxShadow: "0 2px 10px rgba(0,0,0,0.1)", overflow: "hidden"}} data-communication="preview">>
         <div style={{
           background: "linear-gradient(135deg, #1e3a5f 0%, #2c4b73 30%, #3d5a7a 70%, #4a6b85 100%)",
           color: "white", 
@@ -584,12 +627,21 @@ function ComunicadoIncidente() {
           </h2>
         </div>
         
-        <button 
-          onClick={() => setShowForm(true)}
-          style={{backgroundColor: "#666", color: "white", border: "none", padding: "10px 20px", borderRadius: "4px", cursor: "pointer", marginTop: "15px"}}
-        >
-          Volver al Editor
-        </button>
+        <div style={{display: "flex", gap: "15px", marginTop: "15px"}}>
+          <button 
+            onClick={() => setShowForm(true)}
+            style={{backgroundColor: "#666", color: "white", border: "none", padding: "10px 20px", borderRadius: "4px", cursor: "pointer"}}
+          >
+            Volver al Editor
+          </button>
+          
+          <button 
+            onClick={copyAsImage}
+            style={{backgroundColor: "#1e3a5f", color: "white", border: "none", padding: "10px 20px", borderRadius: "4px", cursor: "pointer"}}
+          >
+            Copiar como Imagen
+          </button>
+        </div>
       </div>
     </div>
   );
