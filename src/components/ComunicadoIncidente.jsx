@@ -120,11 +120,12 @@ function ComunicadoIncidente() {
     return (
       <div style={{maxWidth: "800px", margin: "0 auto", backgroundColor: "white", borderRadius: "8px", boxShadow: "0 2px 10px rgba(0,0,0,0.1)", overflow: "hidden"}}>
         <div style={{
-          background: "linear-gradient(135deg, #0e1c36 0%, #1a365d 50%, #2c5282 100%)",
+          background: "linear-gradient(135deg, #1e3a5f 0%, #2c4b73 30%, #3d5a7a 70%, #4a6b85 100%)",
           color: "white", 
           padding: "20px 30px",
           position: "relative",
-          overflow: "hidden"
+          overflow: "hidden",
+          boxShadow: "0 4px 15px rgba(0,0,0,0.2)"
         }}>
           <div style={{
             position: "absolute",
@@ -132,35 +133,27 @@ function ComunicadoIncidente() {
             left: 0,
             right: 0,
             bottom: 0,
-            background: "rgba(255,255,255,0.05)",
-            backdropFilter: "blur(10px)"
+            background: "rgba(255,255,255,0.03)",
+            backdropFilter: "blur(5px)"
           }}></div>
-          <div style={{position: "relative", zIndex: 1, display: "flex", alignItems: "center", gap: "15px"}}>
-            <div style={{
-              fontSize: "36px",
-              opacity: 0.9
+          <div style={{position: "relative", zIndex: 1}}>
+            <h1 style={{
+              margin: 0, 
+              fontSize: "28px", 
+              fontWeight: "600",
+              textShadow: "0 2px 8px rgba(0,0,0,0.4)",
+              letterSpacing: "0.5px"
             }}>
-              {formData.tipoNotificacion.includes("INCIDENTE") ? "🚨" : "⚙️"}
-            </div>
-            <div>
-              <h1 style={{
-                margin: 0, 
-                fontSize: "28px", 
-                fontWeight: "600",
-                textShadow: "0 2px 4px rgba(0,0,0,0.3)",
-                letterSpacing: "0.5px"
-              }}>
-                🔧 Crear Comunicado de {formData.tipoNotificacion.includes("INCIDENTE") ? "Incidente" : "Evento"}
-              </h1>
-              <p style={{
-                margin: "8px 0 0 0",
-                fontSize: "14px",
-                opacity: 0.9,
-                fontWeight: "300"
-              }}>
-                Sistema de gestión y notificación técnica
-              </p>
-            </div>
+              Crear Comunicado de {formData.tipoNotificacion.includes("INCIDENTE") ? "Incidente" : "Evento"}
+            </h1>
+            <p style={{
+              margin: "8px 0 0 0",
+              fontSize: "14px",
+              opacity: 0.9,
+              fontWeight: "300"
+            }}>
+              Sistema de gestión y notificación técnica
+            </p>
           </div>
         </div>
 
@@ -490,11 +483,12 @@ function ComunicadoIncidente() {
   return (
     <div style={{maxWidth: "800px", margin: "0 auto", backgroundColor: "white", borderRadius: "8px", boxShadow: "0 2px 10px rgba(0,0,0,0.1)", overflow: "hidden"}}>
       <div style={{
-        background: "linear-gradient(135deg, #0e1c36 0%, #1a365d 50%, #2c5282 100%)",
+        background: "linear-gradient(135deg, #1e3a5f 0%, #2c4b73 30%, #3d5a7a 70%, #4a6b85 100%)",
         color: "white", 
         padding: "20px 30px",
         position: "relative",
-        overflow: "hidden"
+        overflow: "hidden",
+        boxShadow: "0 4px 15px rgba(0,0,0,0.2)"
       }}>
         <div style={{
           position: "absolute",
@@ -502,21 +496,15 @@ function ComunicadoIncidente() {
           left: 0,
           right: 0,
           bottom: 0,
-          background: "rgba(255,255,255,0.05)",
-          backdropFilter: "blur(10px)"
+          background: "rgba(255,255,255,0.03)",
+          backdropFilter: "blur(5px)"
         }}></div>
-        <div style={{position: "relative", zIndex: 1, display: "flex", alignItems: "center", gap: "15px"}}>
-          <div style={{
-            fontSize: "36px",
-            opacity: 0.9
-          }}>
-            {formData.tipoNotificacion.includes("INCIDENTE") ? "🚨" : "⚙️"}
-          </div>
+        <div style={{position: "relative", zIndex: 1}}>
           <h1 style={{
             margin: 0, 
             fontSize: "32px", 
             fontWeight: "700",
-            textShadow: "0 2px 4px rgba(0,0,0,0.3)",
+            textShadow: "0 2px 8px rgba(0,0,0,0.4)",
             letterSpacing: "0.5px"
           }}>
             {formData.tipoNotificacion}
@@ -540,7 +528,7 @@ function ComunicadoIncidente() {
       <div style={{padding: "20px"}}>
         <div style={{border: "1px solid #ccc", padding: "20px", marginBottom: "15px", position: "relative"}}>
           <div style={{position: "absolute", top: "15px", right: "15px", display: "flex", gap: "10px"}}>
-            <div style={{backgroundColor: "#fff8dc", color: "#B7950B", padding: "8px 12px", borderRadius: "8px", textAlign: "center", minWidth: "60px", border: "2px solid #B7950B"}}>
+            <div style={{backgroundColor: "#f8f9fa", color: "#495057", padding: "8px 12px", borderRadius: "8px", textAlign: "center", minWidth: "60px", border: "2px solid #6c757d"}}>
               <div style={{fontSize: "11px", fontWeight: "bold", marginBottom: "2px"}}>Estado</div>
               <div style={{display: "flex", alignItems: "center", justifyContent: "center", gap: "6px"}}>
                 <div 
@@ -578,29 +566,22 @@ function ComunicadoIncidente() {
         </div>
         
         <div style={{
-          background: "linear-gradient(135deg, #2c5282 0%, #1a365d 50%, #0e1c36 100%)",
+          background: "linear-gradient(135deg, #4a6b85 0%, #3d5a7a 30%, #2c4b73 70%, #1e3a5f 100%)",
           color: "white", 
           padding: "30px",
-          textAlign: "center"
+          textAlign: "center",
+          boxShadow: "0 -4px 15px rgba(0,0,0,0.2)"
         }}>
           <h2 style={{
             margin: 0,
             fontSize: "28px",
-            fontWeight: "300",
+            fontWeight: "400",
             letterSpacing: "2px",
-            fontFamily: "serif"
+            fontFamily: "serif",
+            textShadow: "0 2px 8px rgba(0,0,0,0.4)"
           }}>
-            DinersClub
+            Diners Club
           </h2>
-          <p style={{
-            margin: "5px 0 0 0",
-            fontSize: "16px",
-            opacity: 0.9,
-            letterSpacing: "1px",
-            fontStyle: "italic"
-          }}>
-            International
-          </p>
         </div>
         
         <button 
