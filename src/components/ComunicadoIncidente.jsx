@@ -125,10 +125,27 @@ function ComunicadoIncidente() {
         return;
       }
 
-      // Usar html2canvas para capturar como imagen
-      const html2canvas = (await import('https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js')).default;
-      
-      const canvas = await html2canvas(communicationElement, {
+      // Cargar html2canvas de forma compatible
+      if (!window.html2canvas) {
+        const script = document.createElement('script');
+        script.src = 'https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js';
+        script.onload = () => {
+          setTimeout(() => captureAndCopy(communicationElement), 100);
+        };
+        document.head.appendChild(script);
+      } else {
+        captureAndCopy(communicationElement);
+      }
+
+    } catch (error) {
+      console.error('Error al capturar imagen:', error);
+      alert('Error al generar la imagen. Inténtalo de nuevo.');
+    }
+  };
+
+  const captureAndCopy = async (element) => {
+    try {
+      const canvas = await window.html2canvas(element, {
         backgroundColor: '#ffffff',
         scale: 2,
         useCORS: true,
