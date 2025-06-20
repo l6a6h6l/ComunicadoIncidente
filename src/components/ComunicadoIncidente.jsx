@@ -2,6 +2,9 @@ import React, { useState } from 'react';
 
 function ComunicadoIncidente() {
   const [showForm, setShowForm] = useState(true);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [usuario, setUsuario] = useState("");
+  const [password, setPassword] = useState("");
   const [formData, setFormData] = useState({
     tipoNotificacion: "GESTIÓN INCIDENTE",
     estado: "En Revisión",
@@ -116,6 +119,46 @@ function ComunicadoIncidente() {
     }
   };
 
+  const handleLogin = () => {
+    if (usuario === "admin" && password === "1234") {
+      setIsLoggedIn(true);
+    } else {
+      alert("Credenciales incorrectas");
+      setUsuario("");
+      setPassword("");
+    }
+  };
+
+  const handleLogout = () => {
+    setIsLoggedIn(false);
+    setUsuario("");
+    setPassword("");
+    setShowForm(true);
+  };
+
+  const limpiarCampos = () => {
+    setFormData({
+      tipoNotificacion: "GESTIÓN INCIDENTE",
+      estado: "En Revisión",
+      prioridad: "P2",
+      fecha: "",
+      horaInicio: "",
+      horaFin: "",
+      descripcion: "",
+      impacto: "",
+      resolucion: "",
+      nota: "Describir la nota si aplica",
+      referencia: "MSG" + Math.random().toString(36).substring(2, 8) + "_" + Date.now().toString().slice(-8)
+    });
+    
+    // Resetear también los estados de la calculadora
+    setAfectacion(0);
+    setImpactoUsuarios(1);
+    setUrgencia(2);
+    setHorario(2);
+    setMostrarCalculadoraPrioridad(false);
+  };
+
   const copyAsImage = async () => {
     try {
       // Buscar el elemento del comunicado
@@ -226,6 +269,219 @@ function ComunicadoIncidente() {
       alert(`❌ Error técnico: ${error.message}\nActualiza la página e intenta de nuevo`);
     }
   };
+  // PANTALLA DE LOGIN SIMPLE
+  if (!isLoggedIn) {
+    return (
+      <div style={{
+        minHeight: "100vh",
+        background: "linear-gradient(135deg, #0a1929 0%, #1e3a5f 30%, #2c4b73 60%, #1e3a5f 100%)",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        padding: "20px",
+        fontFamily: "system-ui, -apple-system, sans-serif"
+      }}>
+        <div style={{
+          background: "rgba(255,255,255,0.95)",
+          borderRadius: "16px",
+          padding: "50px 40px",
+          maxWidth: "420px",
+          width: "100%",
+          textAlign: "center",
+          boxShadow: "0 20px 60px rgba(0,0,0,0.4), 0 8px 25px rgba(0,0,0,0.3)",
+          backdropFilter: "blur(10px)",
+          border: "1px solid rgba(255,255,255,0.2)"
+        }}>
+          <div style={{
+            background: "linear-gradient(135deg, #1e3a5f 0%, #2c4b73 50%, #4a6b85 100%)",
+            borderRadius: "12px",
+            padding: "25px 20px",
+            marginBottom: "35px",
+            position: "relative",
+            overflow: "hidden"
+          }}>
+            <div style={{
+              position: "absolute",
+              top: 0,
+              left: 0,
+              right: 0,
+              bottom: 0,
+              background: "rgba(255,255,255,0.1)",
+              backdropFilter: "blur(5px)"
+            }}></div>
+            <div style={{position: "relative", zIndex: 1}}>
+              <h1 style={{
+                color: "white",
+                margin: "0 0 8px 0",
+                fontSize: "28px",
+                fontWeight: "700",
+                textShadow: "0 2px 8px rgba(0,0,0,0.3)",
+                letterSpacing: "0.5px"
+              }}>
+                Sistema de Comunicados
+              </h1>
+              <p style={{
+                color: "rgba(255,255,255,0.9)",
+                margin: 0,
+                fontSize: "15px",
+                fontWeight: "300"
+              }}>
+                Diners Club International
+              </p>
+            </div>
+          </div>
+          
+          <div style={{marginBottom: "25px"}}>
+            <label style={{
+              display: "block", 
+              marginBottom: "10px", 
+              color: "#1e3a5f", 
+              fontWeight: "600",
+              fontSize: "14px",
+              textAlign: "left"
+            }}>
+              Usuario
+            </label>
+            <input
+              type="text"
+              value={usuario}
+              onChange={(e) => setUsuario(e.target.value)}
+              style={{
+                width: "100%",
+                padding: "16px",
+                border: "2px solid #e8ecf0",
+                borderRadius: "8px",
+                fontSize: "16px",
+                boxSizing: "border-box",
+                transition: "all 0.3s ease",
+                outline: "none",
+                backgroundColor: "#fafbfc"
+              }}
+              onFocus={(e) => {
+                e.target.style.borderColor = "#2c4b73";
+                e.target.style.backgroundColor = "#ffffff";
+                e.target.style.boxShadow = "0 0 0 3px rgba(44, 75, 115, 0.1)";
+              }}
+              onBlur={(e) => {
+                e.target.style.borderColor = "#e8ecf0";
+                e.target.style.backgroundColor = "#fafbfc";
+                e.target.style.boxShadow = "none";
+              }}
+              placeholder="Ingrese su usuario"
+            />
+          </div>
+          
+          <div style={{marginBottom: "35px"}}>
+            <label style={{
+              display: "block", 
+              marginBottom: "10px", 
+              color: "#1e3a5f", 
+              fontWeight: "600",
+              fontSize: "14px",
+              textAlign: "left"
+            }}>
+              Contraseña
+            </label>
+            <input
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              style={{
+                width: "100%",
+                padding: "16px",
+                border: "2px solid #e8ecf0",
+                borderRadius: "8px",
+                fontSize: "16px",
+                boxSizing: "border-box",
+                transition: "all 0.3s ease",
+                outline: "none",
+                backgroundColor: "#fafbfc"
+              }}
+              onFocus={(e) => {
+                e.target.style.borderColor = "#2c4b73";
+                e.target.style.backgroundColor = "#ffffff";
+                e.target.style.boxShadow = "0 0 0 3px rgba(44, 75, 115, 0.1)";
+              }}
+              onBlur={(e) => {
+                e.target.style.borderColor = "#e8ecf0";
+                e.target.style.backgroundColor = "#fafbfc";
+                e.target.style.boxShadow = "none";
+              }}
+              placeholder="Ingrese su contraseña"
+            />
+          </div>
+          
+          <button
+            onClick={handleLogin}
+            style={{
+              width: "100%",
+              background: "linear-gradient(135deg, #1e3a5f 0%, #2c4b73 100%)",
+              color: "white",
+              border: "none",
+              padding: "18px",
+              borderRadius: "8px",
+              fontSize: "16px",
+              cursor: "pointer",
+              fontWeight: "600",
+              transition: "all 0.3s ease",
+              boxShadow: "0 4px 15px rgba(30, 58, 95, 0.3)",
+              textTransform: "uppercase",
+              letterSpacing: "0.5px"
+            }}
+            onMouseOver={(e) => {
+              e.target.style.transform = "translateY(-2px)";
+              e.target.style.boxShadow = "0 8px 25px rgba(30, 58, 95, 0.4)";
+            }}
+            onMouseOut={(e) => {
+              e.target.style.transform = "translateY(0)";
+              e.target.style.boxShadow = "0 4px 15px rgba(30, 58, 95, 0.3)";
+            }}
+          >
+            Iniciar Sesión
+          </button>
+          
+          <div style={{
+            marginTop: "30px",
+            padding: "20px",
+            background: "linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%)",
+            borderRadius: "8px",
+            border: "1px solid #dee2e6"
+          }}>
+            <div style={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              marginBottom: "8px"
+            }}>
+              <div style={{
+                width: "6px",
+                height: "6px",
+                borderRadius: "50%",
+                backgroundColor: "#28a745",
+                marginRight: "8px"
+              }}></div>
+              <span style={{
+                fontSize: "12px",
+                color: "#495057",
+                fontWeight: "600"
+              }}>
+                SISTEMA SEGURO
+              </span>
+            </div>
+            <p style={{
+              margin: 0,
+              fontSize: "11px",
+              color: "#6c757d",
+              lineHeight: "1.4"
+            }}>
+              Acceso restringido para personal autorizado.<br/>
+              Todas las acciones son registradas y monitoreadas.
+            </p>
+          </div>
+        </div>
+      </div>
+    );
+  }
   
   if (showForm) {
     return (
@@ -248,23 +504,25 @@ function ComunicadoIncidente() {
             backdropFilter: "blur(5px)"
           }}></div>
           <div style={{position: "relative", zIndex: 1}}>
-            <h1 style={{
-              margin: 0, 
-              fontSize: "28px", 
-              fontWeight: "600",
-              textShadow: "0 2px 8px rgba(0,0,0,0.4)",
-              letterSpacing: "0.5px"
-            }}>
-              Crear Comunicado de {formData.tipoNotificacion.includes("INCIDENTE") ? "Incidente" : "Evento"}
-            </h1>
-            <p style={{
-              margin: "8px 0 0 0",
-              fontSize: "14px",
-              opacity: 0.9,
-              fontWeight: "300"
-            }}>
-              Sistema de gestión y notificación técnica
-            </p>
+            <div>
+              <h1 style={{
+                margin: 0, 
+                fontSize: "28px", 
+                fontWeight: "600",
+                textShadow: "0 2px 8px rgba(0,0,0,0.4)",
+                letterSpacing: "0.5px"
+              }}>
+                Crear Comunicado de {formData.tipoNotificacion.includes("INCIDENTE") ? "Incidente" : "Evento"}
+              </h1>
+              <p style={{
+                margin: "8px 0 0 0",
+                fontSize: "14px",
+                opacity: 0.9,
+                fontWeight: "300"
+              }}>
+                Sistema de gestión y notificación técnica
+              </p>
+            </div>
           </div>
         </div>
 
@@ -570,12 +828,28 @@ function ComunicadoIncidente() {
             />
           </div>
           
-          <button 
-            onClick={() => setShowForm(false)}
-            style={{backgroundColor: "#0066B2", color: "white", border: "none", padding: "10px 20px", borderRadius: "4px", cursor: "pointer", fontWeight: "bold", fontSize: "16px"}}
-          >
-            Vista Previa del Comunicado
-          </button>
+          <div style={{display: "flex", gap: "15px", marginTop: "15px"}}>
+            <button 
+              onClick={() => setShowForm(false)}
+              style={{backgroundColor: "#0066B2", color: "white", border: "none", padding: "10px 20px", borderRadius: "4px", cursor: "pointer", fontWeight: "bold", fontSize: "16px"}}
+            >
+              Vista Previa del Comunicado
+            </button>
+            
+            <button 
+              onClick={limpiarCampos}
+              style={{backgroundColor: "#6c757d", color: "white", border: "none", padding: "10px 20px", borderRadius: "4px", cursor: "pointer", fontSize: "16px"}}
+            >
+              Limpiar Campos
+            </button>
+            
+            <button
+              onClick={handleLogout}
+              style={{backgroundColor: "#dc3545", color: "white", border: "none", padding: "10px 20px", borderRadius: "4px", cursor: "pointer", fontSize: "16px"}}
+            >
+              Cerrar Sesión
+            </button>
+          </div>
         </div>
       </div>
     );
@@ -625,11 +899,11 @@ function ComunicadoIncidente() {
           src="https://www.dropbox.com/scl/fi/wr90vk30xq57j0w9mqxpl/logo.png?rlkey=yy1117ess35a6uc5lwbdziq6u&raw=1"
           alt="Logo DCI" 
           style={{
-            width: "100px", 
-            height: "100px", 
+            width: "80px", 
+            height: "80px", 
             objectFit: "contain",
             position: "absolute",
-            right: "30px",
+            right: "120px",
             top: "50%",
             transform: "translateY(-50%)"
           }}
@@ -708,6 +982,13 @@ function ComunicadoIncidente() {
             style={{backgroundColor: "#1e3a5f", color: "white", border: "none", padding: "10px 20px", borderRadius: "4px", cursor: "pointer"}}
           >
             Copiar como Imagen
+          </button>
+          
+          <button
+            onClick={handleLogout}
+            style={{backgroundColor: "#dc3545", color: "white", border: "none", padding: "10px 20px", borderRadius: "4px", cursor: "pointer"}}
+          >
+            Cerrar Sesión
           </button>
         </div>
       </div>
