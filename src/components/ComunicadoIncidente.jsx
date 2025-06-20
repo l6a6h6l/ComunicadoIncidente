@@ -269,7 +269,7 @@ function ComunicadoIncidente() {
       alert(`❌ Error técnico: ${error.message}\nActualiza la página e intenta de nuevo`);
     }
   };
-  // PANTALLA DE LOGIN SIMPLE
+  // PANTALLA DE LOGIN COMPLETAMENTE AZUL
   if (!isLoggedIn) {
     return (
       <div style={{
@@ -278,67 +278,52 @@ function ComunicadoIncidente() {
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
-        padding: "20px",
-        fontFamily: "system-ui, -apple-system, sans-serif"
+        padding: "40px 20px",
+        fontFamily: "system-ui, -apple-system, sans-serif",
+        color: "white"
       }}>
         <div style={{
-          background: "rgba(255,255,255,0.95)",
-          borderRadius: "16px",
-          padding: "50px 40px",
           maxWidth: "420px",
           width: "100%",
-          textAlign: "center",
-          boxShadow: "0 20px 60px rgba(0,0,0,0.4), 0 8px 25px rgba(0,0,0,0.3)",
-          backdropFilter: "blur(10px)",
-          border: "1px solid rgba(255,255,255,0.2)"
+          textAlign: "center"
         }}>
           <div style={{
-            background: "linear-gradient(135deg, #1e3a5f 0%, #2c4b73 50%, #4a6b85 100%)",
-            borderRadius: "12px",
-            padding: "25px 20px",
-            marginBottom: "35px",
-            position: "relative",
-            overflow: "hidden"
+            background: "rgba(255,255,255,0.1)",
+            borderRadius: "16px",
+            padding: "30px 25px",
+            marginBottom: "40px",
+            backdropFilter: "blur(10px)",
+            border: "1px solid rgba(255,255,255,0.2)"
           }}>
-            <div style={{
-              position: "absolute",
-              top: 0,
-              left: 0,
-              right: 0,
-              bottom: 0,
-              background: "rgba(255,255,255,0.1)",
-              backdropFilter: "blur(5px)"
-            }}></div>
-            <div style={{position: "relative", zIndex: 1}}>
-              <h1 style={{
-                color: "white",
-                margin: "0 0 8px 0",
-                fontSize: "28px",
-                fontWeight: "700",
-                textShadow: "0 2px 8px rgba(0,0,0,0.3)",
-                letterSpacing: "0.5px"
-              }}>
-                Sistema de Comunicados
-              </h1>
-              <p style={{
-                color: "rgba(255,255,255,0.9)",
-                margin: 0,
-                fontSize: "15px",
-                fontWeight: "300"
-              }}>
-                Diners Club International
-              </p>
-            </div>
+            <h1 style={{
+              color: "white",
+              margin: "0 0 8px 0",
+              fontSize: "32px",
+              fontWeight: "700",
+              textShadow: "0 2px 8px rgba(0,0,0,0.5)",
+              letterSpacing: "0.5px"
+            }}>
+              Sistema de Comunicados
+            </h1>
+            <p style={{
+              color: "rgba(255,255,255,0.9)",
+              margin: 0,
+              fontSize: "16px",
+              fontWeight: "300"
+            }}>
+              Diners Club International
+            </p>
           </div>
           
-          <div style={{marginBottom: "25px"}}>
+          <div style={{marginBottom: "30px"}}>
             <label style={{
               display: "block", 
-              marginBottom: "10px", 
-              color: "#1e3a5f", 
+              marginBottom: "12px", 
+              color: "white", 
               fontWeight: "600",
-              fontSize: "14px",
-              textAlign: "left"
+              fontSize: "16px",
+              textAlign: "left",
+              textShadow: "0 1px 2px rgba(0,0,0,0.3)"
             }}>
               Usuario
             </label>
@@ -348,37 +333,40 @@ function ComunicadoIncidente() {
               onChange={(e) => setUsuario(e.target.value)}
               style={{
                 width: "100%",
-                padding: "16px",
-                border: "2px solid #e8ecf0",
-                borderRadius: "8px",
+                padding: "18px",
+                border: "2px solid rgba(255,255,255,0.3)",
+                borderRadius: "10px",
                 fontSize: "16px",
                 boxSizing: "border-box",
                 transition: "all 0.3s ease",
                 outline: "none",
-                backgroundColor: "#fafbfc"
+                backgroundColor: "rgba(255,255,255,0.1)",
+                color: "white",
+                backdropFilter: "blur(10px)"
               }}
               onFocus={(e) => {
-                e.target.style.borderColor = "#2c4b73";
-                e.target.style.backgroundColor = "#ffffff";
-                e.target.style.boxShadow = "0 0 0 3px rgba(44, 75, 115, 0.1)";
+                e.target.style.borderColor = "rgba(255,255,255,0.6)";
+                e.target.style.backgroundColor = "rgba(255,255,255,0.15)";
+                e.target.style.boxShadow = "0 0 0 3px rgba(255,255,255,0.1)";
               }}
               onBlur={(e) => {
-                e.target.style.borderColor = "#e8ecf0";
-                e.target.style.backgroundColor = "#fafbfc";
+                e.target.style.borderColor = "rgba(255,255,255,0.3)";
+                e.target.style.backgroundColor = "rgba(255,255,255,0.1)";
                 e.target.style.boxShadow = "none";
               }}
               placeholder="Ingrese su usuario"
             />
           </div>
           
-          <div style={{marginBottom: "35px"}}>
+          <div style={{marginBottom: "40px"}}>
             <label style={{
               display: "block", 
-              marginBottom: "10px", 
-              color: "#1e3a5f", 
+              marginBottom: "12px", 
+              color: "white", 
               fontWeight: "600",
-              fontSize: "14px",
-              textAlign: "left"
+              fontSize: "16px",
+              textAlign: "left",
+              textShadow: "0 1px 2px rgba(0,0,0,0.3)"
             }}>
               Contraseña
             </label>
@@ -388,23 +376,25 @@ function ComunicadoIncidente() {
               onChange={(e) => setPassword(e.target.value)}
               style={{
                 width: "100%",
-                padding: "16px",
-                border: "2px solid #e8ecf0",
-                borderRadius: "8px",
+                padding: "18px",
+                border: "2px solid rgba(255,255,255,0.3)",
+                borderRadius: "10px",
                 fontSize: "16px",
                 boxSizing: "border-box",
                 transition: "all 0.3s ease",
                 outline: "none",
-                backgroundColor: "#fafbfc"
+                backgroundColor: "rgba(255,255,255,0.1)",
+                color: "white",
+                backdropFilter: "blur(10px)"
               }}
               onFocus={(e) => {
-                e.target.style.borderColor = "#2c4b73";
-                e.target.style.backgroundColor = "#ffffff";
-                e.target.style.boxShadow = "0 0 0 3px rgba(44, 75, 115, 0.1)";
+                e.target.style.borderColor = "rgba(255,255,255,0.6)";
+                e.target.style.backgroundColor = "rgba(255,255,255,0.15)";
+                e.target.style.boxShadow = "0 0 0 3px rgba(255,255,255,0.1)";
               }}
               onBlur={(e) => {
-                e.target.style.borderColor = "#e8ecf0";
-                e.target.style.backgroundColor = "#fafbfc";
+                e.target.style.borderColor = "rgba(255,255,255,0.3)";
+                e.target.style.backgroundColor = "rgba(255,255,255,0.1)";
                 e.target.style.boxShadow = "none";
               }}
               placeholder="Ingrese su contraseña"
@@ -415,64 +405,73 @@ function ComunicadoIncidente() {
             onClick={handleLogin}
             style={{
               width: "100%",
-              background: "linear-gradient(135deg, #1e3a5f 0%, #2c4b73 100%)",
+              background: "rgba(255,255,255,0.2)",
               color: "white",
-              border: "none",
-              padding: "18px",
-              borderRadius: "8px",
-              fontSize: "16px",
+              border: "2px solid rgba(255,255,255,0.4)",
+              padding: "20px",
+              borderRadius: "10px",
+              fontSize: "18px",
               cursor: "pointer",
-              fontWeight: "600",
+              fontWeight: "700",
               transition: "all 0.3s ease",
-              boxShadow: "0 4px 15px rgba(30, 58, 95, 0.3)",
+              backdropFilter: "blur(10px)",
               textTransform: "uppercase",
-              letterSpacing: "0.5px"
+              letterSpacing: "1px",
+              textShadow: "0 1px 2px rgba(0,0,0,0.3)"
             }}
             onMouseOver={(e) => {
+              e.target.style.background = "rgba(255,255,255,0.3)";
+              e.target.style.borderColor = "rgba(255,255,255,0.6)";
               e.target.style.transform = "translateY(-2px)";
-              e.target.style.boxShadow = "0 8px 25px rgba(30, 58, 95, 0.4)";
+              e.target.style.boxShadow = "0 8px 25px rgba(0,0,0,0.3)";
             }}
             onMouseOut={(e) => {
+              e.target.style.background = "rgba(255,255,255,0.2)";
+              e.target.style.borderColor = "rgba(255,255,255,0.4)";
               e.target.style.transform = "translateY(0)";
-              e.target.style.boxShadow = "0 4px 15px rgba(30, 58, 95, 0.3)";
+              e.target.style.boxShadow = "none";
             }}
           >
             Iniciar Sesión
           </button>
           
           <div style={{
-            marginTop: "30px",
-            padding: "20px",
-            background: "linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%)",
-            borderRadius: "8px",
-            border: "1px solid #dee2e6"
+            marginTop: "40px",
+            padding: "25px",
+            background: "rgba(255,255,255,0.1)",
+            borderRadius: "10px",
+            border: "1px solid rgba(255,255,255,0.2)",
+            backdropFilter: "blur(10px)"
           }}>
             <div style={{
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
-              marginBottom: "8px"
+              marginBottom: "10px"
             }}>
               <div style={{
-                width: "6px",
-                height: "6px",
+                width: "8px",
+                height: "8px",
                 borderRadius: "50%",
-                backgroundColor: "#28a745",
-                marginRight: "8px"
+                backgroundColor: "#00ff88",
+                marginRight: "10px",
+                boxShadow: "0 0 10px rgba(0,255,136,0.5)"
               }}></div>
               <span style={{
-                fontSize: "12px",
-                color: "#495057",
-                fontWeight: "600"
+                fontSize: "14px",
+                color: "white",
+                fontWeight: "700",
+                textShadow: "0 1px 2px rgba(0,0,0,0.3)"
               }}>
                 SISTEMA SEGURO
               </span>
             </div>
             <p style={{
               margin: 0,
-              fontSize: "11px",
-              color: "#6c757d",
-              lineHeight: "1.4"
+              fontSize: "13px",
+              color: "rgba(255,255,255,0.8)",
+              lineHeight: "1.5",
+              textShadow: "0 1px 2px rgba(0,0,0,0.3)"
             }}>
               Acceso restringido para personal autorizado.<br/>
               Todas las acciones son registradas y monitoreadas.
@@ -903,7 +902,7 @@ function ComunicadoIncidente() {
             height: "80px", 
             objectFit: "contain",
             position: "absolute",
-            right: "120px",
+            right: "0px",
             top: "50%",
             transform: "translateY(-50%)"
           }}
